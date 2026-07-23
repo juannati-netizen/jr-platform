@@ -63,9 +63,7 @@ class Quote(Base):
     created_by_id: Mapped[str] = mapped_column(
         ForeignKey("users.id", ondelete="RESTRICT"), index=True
     )
-    status: Mapped[str] = mapped_column(
-        String(20), default=QuoteStatus.DRAFT.value, index=True
-    )
+    status: Mapped[str] = mapped_column(String(20), default=QuoteStatus.DRAFT.value, index=True)
     issue_date: Mapped[date] = mapped_column(Date, default=date.today)
     valid_until: Mapped[date | None] = mapped_column(Date, nullable=True)
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
@@ -92,9 +90,7 @@ class QuoteItem(Base):
     __tablename__ = "quote_items"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
-    quote_id: Mapped[str] = mapped_column(
-        ForeignKey("quotes.id", ondelete="CASCADE"), index=True
-    )
+    quote_id: Mapped[str] = mapped_column(ForeignKey("quotes.id", ondelete="CASCADE"), index=True)
     description: Mapped[str] = mapped_column(String(300))
     quantity: Mapped[Decimal] = mapped_column(QUANTITY)
     unit_price: Mapped[Decimal] = mapped_column(MONEY)
@@ -124,9 +120,7 @@ class Invoice(Base):
     created_by_id: Mapped[str] = mapped_column(
         ForeignKey("users.id", ondelete="RESTRICT"), index=True
     )
-    status: Mapped[str] = mapped_column(
-        String(20), default=InvoiceStatus.ISSUED.value, index=True
-    )
+    status: Mapped[str] = mapped_column(String(20), default=InvoiceStatus.ISSUED.value, index=True)
     issue_date: Mapped[date] = mapped_column(Date, default=date.today)
     due_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
