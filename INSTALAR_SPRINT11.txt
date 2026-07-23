@@ -1,0 +1,46 @@
+JR PLATFORM — SPRINT 11
+Despliegue cloud con Render, PostgreSQL administrado y copias de seguridad
+
+Este paquete es incremental. Debe copiarse sobre el proyecto existente.
+
+INSTALACIÓN LOCAL
+1. Detén Docker con Ctrl+C.
+2. Descomprime este ZIP.
+3. Copia todo su contenido dentro de la carpeta del proyecto.
+4. Elige "Reemplazar los archivos en el destino".
+5. No borres tu archivo .env.
+6. Ejecuta:
+   docker compose down
+   docker compose up --build --force-recreate
+7. Abre http://localhost:5173 y pulsa Ctrl+F5.
+
+VALIDACIÓN LOCAL
+docker compose run --rm --no-deps api sh -c 'pip install -e ".[dev]" && ruff check . --fix && ruff format . && ruff check . && ruff format --check . && mypy apps && pytest'
+
+DESPLIEGUE CLOUD
+1. Abre Render.
+2. New > Blueprint.
+3. Conecta juannati-netizen/jr-platform.
+4. Render detectará render.yaml.
+5. Introduce ADMIN_EMAIL y ADMIN_PASSWORD.
+6. Confirma los recursos.
+7. Espera a que /health esté correcto.
+
+COPIA DE DATOS
+Antes de migrar datos locales:
+   .\scripts\cloud\export-local-database.ps1
+
+Para restaurar en Render:
+   .\scripts\cloud\restore-render-database.ps1 `
+     -DatabaseUrl "URL_EXTERNA_DE_RENDER" `
+     -BackupPath ".\backups\jr-platform-FECHA.dump"
+
+GIT
+git add .
+git commit -m "PF-012 Add cloud deployment backup and recovery"
+git push
+
+SEGURIDAD
+- No subas .env, copias .dump ni URLs de PostgreSQL.
+- Cambia la contraseña inicial después del primer acceso.
+- Activa MFA en GitHub y Render.

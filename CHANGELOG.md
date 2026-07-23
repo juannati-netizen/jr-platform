@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.12.0] - Sprint 11
+
+- Imagen Docker de producción con FastAPI y React en un único servicio.
+- Blueprint de Render con PostgreSQL administrado y despliegue tras CI.
+- Compatibilidad con URLs PostgreSQL proporcionadas por proveedores cloud.
+- Portal SPA servido por FastAPI en producción.
+- Cabeceras HTTP de seguridad.
+- Scripts de copia y restauración de la base de datos.
+- Documentación de despliegue, migración y recuperación.
+- Construcción de la imagen cloud validada por GitHub Actions.
+
 ## [0.11.0] - Sprint 10
 
 - Logotipo, color corporativo y pie documental configurables.

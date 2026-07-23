@@ -1,0 +1,49 @@
+services:
+  - type: web
+    name: jr-platform
+    runtime: docker
+    plan: starter
+    region: frankfurt
+    dockerfilePath: ./deployment/cloud/Dockerfile
+    dockerContext: .
+    autoDeployTrigger: checksPass
+    healthCheckPath: /health
+    envVars:
+      - key: APP_NAME
+        value: JR Platform
+      - key: APP_ENV
+        value: production
+      - key: APP_VERSION
+        value: 0.12.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: jr-platform-db
+          property: connectionString
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"
+      - key: INITIAL_ADMIN_EMAIL
+        sync: false
+      - key: INITIAL_ADMIN_PASSWORD
+        sync: false
+      - key: INITIAL_ADMIN_FULL_NAME
+        value: JR Platform Admin
+      - key: CORS_ORIGINS
+        value: ""
+      - key: PORTAL_DIST_PATH
+        value: /app/static/portal
+      - key: SECURITY_HEADERS_ENABLED
+        value: "true"
+      - key: AI_API_KEY
+        sync: false
+      - key: AI_BASE_URL
+        sync: false
+
+databases:
+  - name: jr-platform-db
+    plan: basic-256mb
+    region: frankfurt
+    postgresMajorVersion: "16"

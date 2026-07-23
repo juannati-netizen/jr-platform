@@ -98,3 +98,7 @@ Desde **Sistema → Configuración empresarial** puedes subir el logotipo, elegi
 Desde **Gestión → Fiscalidad e IGIC** puedes revisar cada mes, cerrar periodos, registrar ajustes documentados y preparar un borrador trimestral del modelo 420 en CSV.
 
 Los cálculos son orientativos y no sustituyen la autoliquidación oficial ni la revisión profesional.
+
+## Despliegue cloud
+
+El repositorio incluye `render.yaml` y una imagen Docker de producción que sirven la API y el portal desde una sola dirección HTTPS. Consulta `docs/SPRINT11_CLOUD_DEPLOYMENT.md`.
