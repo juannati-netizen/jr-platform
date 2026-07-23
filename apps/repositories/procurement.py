@@ -21,7 +21,6 @@ from apps.schemas.procurement import (
     WorkOrderProfitability,
 )
 
-
 TWOPLACES = Decimal("0.01")
 
 
@@ -225,9 +224,7 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
             .options(selectinload(StockMovement.work_order).selectinload(WorkOrder.client))
         ).all()
     )
-    work_orders = list(
-        db.scalars(select(WorkOrder).options(selectinload(WorkOrder.client))).all()
-    )
+    work_orders = list(db.scalars(select(WorkOrder).options(selectinload(WorkOrder.client))).all())
     clients = list(db.scalars(select(Client).order_by(Client.name)).all())
 
     work_order_values: dict[str, dict[str, Decimal]] = {
@@ -266,10 +263,10 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
             metrics = work_order_values.setdefault(
                 invoice.work_order_id,
                 {
-                "invoiced": Decimal("0.00"),
-                "collected": Decimal("0.00"),
-                "expenses": Decimal("0.00"),
-            },
+                    "invoiced": Decimal("0.00"),
+                    "collected": Decimal("0.00"),
+                    "expenses": Decimal("0.00"),
+                },
             )
             metrics["invoiced"] += invoice.total
             metrics["collected"] += invoice.paid_total
@@ -284,19 +281,19 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
             metrics = work_order_values.setdefault(
                 expense.work_order_id,
                 {
-                "invoiced": Decimal("0.00"),
-                "collected": Decimal("0.00"),
-                "expenses": Decimal("0.00"),
-            },
+                    "invoiced": Decimal("0.00"),
+                    "collected": Decimal("0.00"),
+                    "expenses": Decimal("0.00"),
+                },
             )
             metrics["expenses"] += expense.total
             client_metrics = client_values.setdefault(
                 expense.work_order.client_id,
                 {
-                "invoiced": Decimal("0.00"),
-                "collected": Decimal("0.00"),
-                "expenses": Decimal("0.00"),
-            },
+                    "invoiced": Decimal("0.00"),
+                    "collected": Decimal("0.00"),
+                    "expenses": Decimal("0.00"),
+                },
             )
             client_metrics["expenses"] += expense.total
 

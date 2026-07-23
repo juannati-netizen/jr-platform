@@ -27,7 +27,6 @@ from apps.schemas.inventory import (
     WarehouseUpdate,
 )
 
-
 TWOPLACES = Decimal("0.01")
 THREEPLACES = Decimal("0.001")
 

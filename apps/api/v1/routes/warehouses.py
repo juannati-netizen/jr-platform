@@ -25,8 +25,7 @@ def read_warehouses(
     active_only: bool = False,
 ) -> list[WarehouseRead]:
     return [
-        WarehouseRead.model_validate(item)
-        for item in list_warehouses(db, active_only=active_only)
+        WarehouseRead.model_validate(item) for item in list_warehouses(db, active_only=active_only)
     ]
 
 
