@@ -1,0 +1,2 @@
+name,tax_id,email,phone,address,notes,is_active
+Proveedor ejemplo,B87654321,proveedor@example.com,611111111,Polígono Industrial 2,Importado desde escritorio,true

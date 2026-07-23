@@ -1,0 +1,2 @@
+name,tax_id,email,phone,address,notes,is_active
+Cliente ejemplo,B12345678,cliente@example.com,600000000,Calle Ejemplo 1,Importado desde escritorio,true

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0] - Sprint 6
+
+- Nuevo diseño oscuro Enterprise Workspace inspirado en JR Platform Desktop.
+- Navegación por áreas: visión general, comercial, compras, gestión y sistema.
+- Centro de Control compacto con métricas, agenda, alertas, actividad y accesos rápidos.
+- Centro de migración para preparar datos de la aplicación de escritorio.
+- Plantillas CSV y guía de transición segura.
+
 ## [0.6.0] - Sprint 5
 
 - Gestión de proveedores.

@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from '@mui/material'
+import { Box, CircularProgress, Stack, Typography } from '@mui/material'
 
 export function LoadingScreen() {
   return (
@@ -7,15 +7,14 @@ export function LoadingScreen() {
         minHeight: '100vh',
         display: 'grid',
         placeItems: 'center',
-        background: 'linear-gradient(135deg, #f0fdfa 0%, #f8fafc 60%, #fff7ed 100%)',
+        background:
+          'radial-gradient(circle at 50% 30%, rgba(45,145,207,0.2), transparent 35%), #111820',
       }}
     >
-      <Box sx={{ textAlign: 'center' }}>
-        <CircularProgress size={42} />
-        <Typography sx={{ mt: 2 }} color="text.secondary">
-          Preparando JR Platform…
-        </Typography>
-      </Box>
+      <Stack alignItems="center" spacing={2}>
+        <CircularProgress />
+        <Typography color="text.secondary">Iniciando JR Enterprise Workspace…</Typography>
+      </Stack>
     </Box>
   )
 }

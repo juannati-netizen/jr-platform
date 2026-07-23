@@ -6,6 +6,7 @@ import { DashboardPage } from '../pages/DashboardPage'
 import { ExpensesPage } from '../pages/ExpensesPage'
 import { InvoicesPage } from '../pages/InvoicesPage'
 import { LoginPage } from '../pages/LoginPage'
+import { MigrationPage } from '../pages/MigrationPage'
 import { ProfilePage } from '../pages/ProfilePage'
 import { ProfitabilityPage } from '../pages/ProfitabilityPage'
 import { QuotesPage } from '../pages/QuotesPage'
@@ -75,6 +76,12 @@ const profitabilityRoute = createRoute({
   component: ProfitabilityPage,
 })
 
+const migrationRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/migration',
+  component: MigrationPage,
+})
+
 const profileRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/profile',
@@ -98,6 +105,7 @@ const routeTree = rootRoute.addChildren([
     suppliersRoute,
     expensesRoute,
     profitabilityRoute,
+    migrationRoute,
     profileRoute,
     usersRoute,
   ]),

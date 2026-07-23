@@ -1,0 +1,20 @@
+JR PLATFORM — SPRINT 6 UPDATE
+
+Este paquete es incremental: solo contiene los archivos que cambian.
+No reemplaza el backend ni borra las correcciones de los sprints anteriores.
+
+INSTALACIÓN
+1. Detén Docker con Ctrl+C.
+2. Copia todo el contenido de esta carpeta dentro del proyecto.
+3. Elige "Reemplazar los archivos en el destino".
+4. Ejecuta:
+   docker compose down
+   docker compose up --build --force-recreate
+5. Abre http://localhost:5173 y pulsa Ctrl+F5.
+
+NOVEDADES
+- Diseño oscuro Enterprise Workspace inspirado en JR Platform Desktop.
+- Menú agrupado por áreas.
+- Nuevo Centro de Control.
+- Centro de migración con plantillas CSV.
+- No importa datos todavía: primero hay que revisar una exportación real de la app antigua.

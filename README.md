@@ -16,6 +16,8 @@ Plataforma operativa para clientes, trabajos, facturación, compras y rentabilid
 - Exportación CSV de informes de rentabilidad.
 - Panel operativo, financiero y de margen.
 - Portal React con documentos imprimibles.
+- Interfaz Enterprise Workspace inspirada en la aplicación de escritorio.
+- Centro de migración y plantillas CSV para preparar el traslado de datos.
 
 ## Requisitos
 
