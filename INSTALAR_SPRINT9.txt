@@ -1,0 +1,43 @@
+JR PLATFORM — SPRINT 9
+Configuración empresarial, ejercicios fiscales, VERI*FACTU e IA
+
+Este paquete es incremental. Debe copiarse sobre el proyecto existente.
+
+INSTALACIÓN
+1. Detén Docker con Ctrl+C.
+2. Descomprime este ZIP.
+3. Copia todo su contenido dentro de la carpeta del proyecto.
+4. Elige "Reemplazar los archivos en el destino".
+5. No reemplaces ni borres manualmente tu archivo .env.
+6. Ejecuta:
+   docker compose down
+   docker compose up --build --force-recreate
+7. Abre http://localhost:5173 y pulsa Ctrl+F5.
+8. Entra en Sistema > Configuración empresarial.
+
+FUNCIONES
+- Razón social, nombre comercial, NIF/CIF y domicilio fiscal.
+- Datos de contacto, IBAN, moneda, zona horaria y series documentales.
+- Apertura, cierre y reapertura de ejercicios fiscales.
+- Panel de preparación VERI*FACTU.
+- Configuración segura del Centro de IA.
+- Historial de cambios administrativos.
+
+IMPORTANTE SOBRE VERI*FACTU
+El panel es de preparación y control. Esta versión no certifica el sistema
+ni envía registros reales a la AEAT.
+
+IMPORTANTE SOBRE IA
+Las claves privadas no se guardan en la base de datos.
+Cuando se configure un proveedor se usarán variables privadas del archivo .env:
+AI_API_KEY=
+AI_BASE_URL=
+
+VALIDACIÓN
+El backend incluye 38 pruebas superadas y la migración se ha probado
+con upgrade, downgrade y nuevo upgrade.
+
+GIT
+git add .
+git commit -m "PF-010 Add company fiscal year VERI FACTU and AI settings"
+git push

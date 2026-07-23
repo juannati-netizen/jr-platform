@@ -14,6 +14,7 @@ import { ProfilePage } from '../pages/ProfilePage'
 import { ProfitabilityPage } from '../pages/ProfitabilityPage'
 import { ProjectsPage } from '../pages/ProjectsPage'
 import { QuotesPage } from '../pages/QuotesPage'
+import { SettingsPage } from '../pages/SettingsPage'
 import { SuppliersPage } from '../pages/SuppliersPage'
 import { UsersPage } from '../pages/UsersPage'
 import { WorkOrdersPage } from '../pages/WorkOrdersPage'
@@ -110,6 +111,12 @@ const migrationRoute = createRoute({
   component: MigrationPage,
 })
 
+const settingsRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/settings',
+  component: SettingsPage,
+})
+
 const profileRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/profile',
@@ -138,6 +145,7 @@ const routeTree = rootRoute.addChildren([
     expensesRoute,
     profitabilityRoute,
     migrationRoute,
+    settingsRoute,
     profileRoute,
     usersRoute,
   ]),

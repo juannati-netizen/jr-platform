@@ -2,6 +2,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined'
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
+import CorporateFareOutlinedIcon from '@mui/icons-material/CorporateFareOutlined'
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
 import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined'
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
@@ -44,8 +45,10 @@ import {
   Typography,
 } from '@mui/material'
 import { Link, Outlet, useRouterState } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
 import { type ReactNode, useMemo, useState } from 'react'
 
+import { getCompanyProfile } from '../api/settings'
 import { useAuth } from '../auth/AuthContext'
 
 const drawerWidth = 238
@@ -76,6 +79,13 @@ export function AppShell() {
     system: false,
   })
   const pathname = useRouterState({ select: (state) => state.location.pathname })
+  const companyQuery = useQuery({
+    queryKey: ['company-profile'],
+    queryFn: getCompanyProfile,
+    enabled: user?.role === 'admin',
+    retry: false,
+  })
+  const workspaceName = companyQuery.data?.trade_name || companyQuery.data?.legal_name || 'JR ENERGY'
 
   const groups = useMemo<NavigationGroup[]>(
     () => [
@@ -177,6 +187,12 @@ export function AppShell() {
         label: 'SISTEMA',
         items: [
           {
+            label: 'Configuración empresarial',
+            to: '/settings',
+            icon: <CorporateFareOutlinedIcon />,
+            visible: user?.role === 'admin',
+          },
+          {
             label: 'Centro de migración',
             to: '/migration',
             icon: <SyncAltOutlinedIcon />,
@@ -209,7 +225,7 @@ export function AppShell() {
         </Avatar>
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography variant="subtitle2" fontWeight={800} noWrap>
-            JR ENERGY
+            {workspaceName}
           </Typography>
           <Typography variant="caption" color="primary.light" noWrap display="block">
             ENTERPRISE WORKSPACE

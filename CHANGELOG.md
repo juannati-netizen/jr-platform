@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.0] - Sprint 9
+
+- Configuración empresarial y datos fiscales.
+- Apertura, cierre y reapertura de ejercicios fiscales.
+- Centro de preparación VERI*FACTU con lista de control.
+- Configuración segura del Centro de IA sin almacenar credenciales.
+- Historial de cambios administrativos.
+
 ## [0.9.0] - Sprint 8
 
 - Leads, oportunidades y actividades comerciales.

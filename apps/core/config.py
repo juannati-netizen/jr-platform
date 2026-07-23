@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     initial_admin_full_name: str = "JR Platform Admin"
     cors_origins: str = "http://localhost:5173"
     legacy_tariff_csv_path: str = "private-import/tariff_items.csv"
+    ai_api_key: str = ""
+    ai_base_url: str = ""
 
     model_config = SettingsConfigDict(
         env_file=".env",

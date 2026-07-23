@@ -13,10 +13,14 @@ from apps.api.main import app
 from apps.db.base import Base
 from apps.db.session import engine
 from apps.models import (
+    AiConfiguration,
     CatalogItem,
     Client,
+    CompanyProfile,
+    ConfigurationEvent,
     CrmActivity,
     Expense,
+    FiscalYear,
     InventoryLevel,
     Invoice,
     InvoiceItem,
@@ -31,16 +35,21 @@ from apps.models import (
     StockMovement,
     Supplier,
     User,
+    VerifactuConfiguration,
     Warehouse,
     WorkOrder,
     WorkOrderNote,
 )
 
 _ = (
+    AiConfiguration,
     CatalogItem,
     Client,
+    CompanyProfile,
+    ConfigurationEvent,
     CrmActivity,
     Expense,
+    FiscalYear,
     InventoryLevel,
     Invoice,
     InvoiceItem,
@@ -55,6 +64,7 @@ _ = (
     StockMovement,
     Supplier,
     User,
+    VerifactuConfiguration,
     Warehouse,
     WorkOrder,
     WorkOrderNote,

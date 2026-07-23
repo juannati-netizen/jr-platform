@@ -86,3 +86,7 @@ La carpeta está excluida por `.gitignore`, por lo que no se publica en GitHub.
 4. Pulsa **Importar tarifario**.
 
 También puedes iniciar la importación desde **Compras y almacén → Tarifario y materiales**.
+
+## Configuración empresarial
+
+Los administradores pueden gestionar empresa, ejercicios fiscales, preparación VERI*FACTU e IA desde **Sistema → Configuración empresarial**.

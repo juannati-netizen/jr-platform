@@ -35,6 +35,16 @@ from apps.models.procurement import (
     ExpenseStatus,
     Supplier,
 )
+from apps.models.settings import (
+    AiConfiguration,
+    AiProvider,
+    CompanyProfile,
+    ConfigurationEvent,
+    FiscalYear,
+    FiscalYearStatus,
+    VerifactuConfiguration,
+    VerifactuMode,
+)
 from apps.models.user import User, UserRole
 from apps.models.work_order import (
     WorkOrder,
@@ -72,6 +82,14 @@ __all__ = [
     "Quote",
     "QuoteItem",
     "QuoteStatus",
+    "AiConfiguration",
+    "AiProvider",
+    "CompanyProfile",
+    "ConfigurationEvent",
+    "FiscalYear",
+    "FiscalYearStatus",
+    "VerifactuConfiguration",
+    "VerifactuMode",
     "Supplier",
     "User",
     "UserRole",
