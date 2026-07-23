@@ -118,15 +118,11 @@ def upgrade() -> None:
     )
     op.create_index(op.f("ix_configuration_events_action"), "configuration_events", ["action"])
     op.create_index(op.f("ix_configuration_events_actor_id"), "configuration_events", ["actor_id"])
-    op.create_index(
-        op.f("ix_configuration_events_category"), "configuration_events", ["category"]
-    )
+    op.create_index(op.f("ix_configuration_events_category"), "configuration_events", ["category"])
 
 
 def downgrade() -> None:
-    op.drop_index(
-        op.f("ix_configuration_events_category"), table_name="configuration_events"
-    )
+    op.drop_index(op.f("ix_configuration_events_category"), table_name="configuration_events")
     op.drop_index(op.f("ix_configuration_events_actor_id"), table_name="configuration_events")
     op.drop_index(op.f("ix_configuration_events_action"), table_name="configuration_events")
     op.drop_table("configuration_events")

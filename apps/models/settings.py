@@ -72,9 +72,7 @@ class FiscalYear(Base):
     year: Mapped[int] = mapped_column(Integer, unique=True, index=True)
     start_date: Mapped[date] = mapped_column(Date)
     end_date: Mapped[date] = mapped_column(Date)
-    status: Mapped[str] = mapped_column(
-        String(20), default=FiscalYearStatus.OPEN.value, index=True
-    )
+    status: Mapped[str] = mapped_column(String(20), default=FiscalYearStatus.OPEN.value, index=True)
     opened_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
     opened_by_id: Mapped[str | None] = mapped_column(
         ForeignKey("users.id", ondelete="SET NULL"), nullable=True
