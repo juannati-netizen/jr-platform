@@ -9,6 +9,13 @@ from apps.models.finance import (
     QuoteItem,
     QuoteStatus,
 )
+from apps.models.inventory import (
+    CatalogItem,
+    InventoryLevel,
+    StockMovement,
+    StockMovementType,
+    Warehouse,
+)
 from apps.models.procurement import (
     Expense,
     ExpenseCategory,
@@ -24,6 +31,11 @@ from apps.models.work_order import (
 )
 
 __all__ = [
+    "CatalogItem",
+    "InventoryLevel",
+    "StockMovement",
+    "StockMovementType",
+    "Warehouse",
     "Client",
     "Expense",
     "ExpenseCategory",

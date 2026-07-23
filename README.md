@@ -18,6 +18,8 @@ Plataforma operativa para clientes, trabajos, facturación, compras y rentabilid
 - Portal React con documentos imprimibles.
 - Interfaz Enterprise Workspace inspirada en la aplicación de escritorio.
 - Centro de migración y plantillas CSV para preparar el traslado de datos.
+- Tarifario técnico y comercial con 1.135 artículos heredados.
+- Almacenes, existencias, movimientos, alertas de stock y materiales asignados a trabajos.
 
 ## Requisitos
 
@@ -69,3 +71,15 @@ npm run check
 npm test
 npm run build
 ```
+
+## Importar el tarifario antiguo
+
+La entrega del Sprint 7 incluye el archivo privado `private-import/tariff_items.csv`.
+La carpeta está excluida por `.gitignore`, por lo que no se publica en GitHub.
+
+1. Inicia la plataforma.
+2. Entra como administrador.
+3. Abre **Sistema → Centro de migración**.
+4. Pulsa **Importar tarifario**.
+
+También puedes iniciar la importación desde **Compras y almacén → Tarifario y materiales**.

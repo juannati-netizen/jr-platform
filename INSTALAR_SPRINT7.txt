@@ -1,0 +1,27 @@
+JR PLATFORM — SPRINT 7
+Tarifario, almacén, inventario y migración privada
+
+Este paquete es incremental. Debe copiarse sobre el proyecto existente.
+
+INSTALACIÓN
+1. Detén Docker con Ctrl+C.
+2. Descomprime este ZIP.
+3. Copia todo dentro de la carpeta del proyecto.
+4. Elige "Reemplazar los archivos en el destino".
+5. No reemplaces manualmente tu archivo .env. La ruta privada ya tiene un valor predeterminado.
+6. Ejecuta:
+   docker compose down
+   docker compose up --build --force-recreate
+7. Abre http://localhost:5173 y pulsa Ctrl+F5.
+8. Entra en Sistema > Centro de migración.
+9. Pulsa "Importar tarifario".
+
+IMPORTANTE
+- private-import/tariff_items.csv contiene precios privados.
+- La carpeta private-import está excluida por .gitignore.
+- Comprueba con `git status` que private-import no aparece antes del commit.
+
+GIT
+git add .
+git commit -m "PF-008 Add catalog inventory warehouses and legacy tariff migration"
+git push

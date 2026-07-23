@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     app_name: str = "JR Platform API"
     app_env: str = "development"
-    app_version: str = "0.6.0"
+    app_version: str = "0.8.0"
     database_url: str = "sqlite+pysqlite:///./jr_platform.db"
     jwt_secret_key: str = "development-secret-change-me-please"
     jwt_algorithm: str = "HS256"
@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     initial_admin_password: str | None = None
     initial_admin_full_name: str = "JR Platform Admin"
     cors_origins: str = "http://localhost:5173"
+    legacy_tariff_csv_path: str = "private-import/tariff_items.csv"
 
     model_config = SettingsConfigDict(
         env_file=".env",

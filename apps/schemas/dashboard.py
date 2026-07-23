@@ -26,6 +26,9 @@ class DashboardSummary(BaseModel):
     pending_total: Decimal
     overdue_invoices: int
     active_suppliers: int
+    active_catalog_items: int
+    low_stock_items: int
+    inventory_value: Decimal
     pending_expenses: int
     expenses_total: Decimal
     material_costs: Decimal

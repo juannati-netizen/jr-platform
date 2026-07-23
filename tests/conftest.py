@@ -13,29 +13,37 @@ from apps.api.main import app
 from apps.db.base import Base
 from apps.db.session import engine
 from apps.models import (
+    CatalogItem,
     Client,
     Expense,
+    InventoryLevel,
     Invoice,
     InvoiceItem,
     Payment,
     Quote,
     QuoteItem,
+    StockMovement,
     Supplier,
     User,
+    Warehouse,
     WorkOrder,
     WorkOrderNote,
 )
 
 _ = (
+    CatalogItem,
     Client,
     Expense,
+    InventoryLevel,
     Invoice,
     InvoiceItem,
     Payment,
     Quote,
     QuoteItem,
+    StockMovement,
     Supplier,
     User,
+    Warehouse,
     WorkOrder,
     WorkOrderNote,
 )

@@ -28,3 +28,17 @@ El objetivo es trasladar la operativa de la aplicación de escritorio a JR Platf
 - Mantener la aplicación antigua en modo consulta durante la transición.
 
 Las plantillas de `docs/import-templates` definen el formato esperado para cada conjunto de datos.
+
+## Migración ejecutable del Sprint 7
+
+La base antigua contiene 1.135 filas en `tariff_items`. Se extrajeron a
+`private-import/tariff_items.csv`, un directorio local excluido de Git.
+
+El endpoint administrativo `POST /api/v1/catalog/import-legacy`:
+
+- crea o actualiza artículos por código e identificador legado;
+- crea el almacén principal si todavía no existe;
+- prepara un registro de existencias por artículo;
+- puede ejecutarse varias veces sin duplicar datos.
+
+No se importan contraseñas, sesiones ni configuración sensible de la aplicación antigua.

@@ -8,6 +8,7 @@ from sqlalchemy.sql import Select
 
 from apps.models.client import Client
 from apps.models.finance import Invoice, InvoiceStatus
+from apps.models.inventory import StockMovement, StockMovementType
 from apps.models.procurement import Expense, ExpenseCategory, ExpenseStatus, Supplier
 from apps.models.work_order import WorkOrder
 from apps.schemas.procurement import (
@@ -19,6 +20,7 @@ from apps.schemas.procurement import (
     SupplierUpdate,
     WorkOrderProfitability,
 )
+
 
 TWOPLACES = Decimal("0.01")
 
@@ -213,7 +215,19 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
             .options(selectinload(Expense.work_order).selectinload(WorkOrder.client))
         ).all()
     )
-    work_orders = list(db.scalars(select(WorkOrder).options(selectinload(WorkOrder.client))).all())
+    material_movements = list(
+        db.scalars(
+            select(StockMovement)
+            .where(
+                StockMovement.movement_type == StockMovementType.ASSIGNMENT.value,
+                StockMovement.work_order_id.is_not(None),
+            )
+            .options(selectinload(StockMovement.work_order).selectinload(WorkOrder.client))
+        ).all()
+    )
+    work_orders = list(
+        db.scalars(select(WorkOrder).options(selectinload(WorkOrder.client))).all()
+    )
     clients = list(db.scalars(select(Client).order_by(Client.name)).all())
 
     work_order_values: dict[str, dict[str, Decimal]] = {
@@ -252,10 +266,10 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
             metrics = work_order_values.setdefault(
                 invoice.work_order_id,
                 {
-                    "invoiced": Decimal("0.00"),
-                    "collected": Decimal("0.00"),
-                    "expenses": Decimal("0.00"),
-                },
+                "invoiced": Decimal("0.00"),
+                "collected": Decimal("0.00"),
+                "expenses": Decimal("0.00"),
+            },
             )
             metrics["invoiced"] += invoice.total
             metrics["collected"] += invoice.paid_total
@@ -270,21 +284,45 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
             metrics = work_order_values.setdefault(
                 expense.work_order_id,
                 {
-                    "invoiced": Decimal("0.00"),
-                    "collected": Decimal("0.00"),
-                    "expenses": Decimal("0.00"),
-                },
+                "invoiced": Decimal("0.00"),
+                "collected": Decimal("0.00"),
+                "expenses": Decimal("0.00"),
+            },
             )
             metrics["expenses"] += expense.total
             client_metrics = client_values.setdefault(
                 expense.work_order.client_id,
+                {
+                "invoiced": Decimal("0.00"),
+                "collected": Decimal("0.00"),
+                "expenses": Decimal("0.00"),
+            },
+            )
+            client_metrics["expenses"] += expense.total
+
+    for movement in material_movements:
+        movement_cost = abs(movement.quantity) * movement.unit_cost
+        expenses_total += movement_cost
+        material_costs += movement_cost
+        if movement.work_order_id is not None and movement.work_order is not None:
+            metrics = work_order_values.setdefault(
+                movement.work_order_id,
                 {
                     "invoiced": Decimal("0.00"),
                     "collected": Decimal("0.00"),
                     "expenses": Decimal("0.00"),
                 },
             )
-            client_metrics["expenses"] += expense.total
+            metrics["expenses"] += movement_cost
+            client_metrics = client_values.setdefault(
+                movement.work_order.client_id,
+                {
+                    "invoiced": Decimal("0.00"),
+                    "collected": Decimal("0.00"),
+                    "expenses": Decimal("0.00"),
+                },
+            )
+            client_metrics["expenses"] += movement_cost
 
     work_order_report = []
     for work_order in work_orders:

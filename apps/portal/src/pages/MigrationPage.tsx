@@ -3,6 +3,7 @@ import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined'
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
 import {
   Alert,
   Box,
@@ -11,10 +12,15 @@ import {
   CardContent,
   Chip,
   Grid,
+  LinearProgress,
   Stack,
   Typography,
 } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { type ChangeEvent, useState } from 'react'
+
+import { ApiError } from '../api/client'
+import { importLegacyTariff } from '../api/inventory'
 
 interface TemplateDefinition {
   name: string
@@ -74,7 +80,20 @@ function downloadTemplate(template: TemplateDefinition) {
 }
 
 export function MigrationPage() {
+  const queryClient = useQueryClient()
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
+  const importMutation = useMutation({
+    mutationFn: importLegacyTariff,
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['catalog'] }),
+        queryClient.invalidateQueries({ queryKey: ['catalog-families'] }),
+        queryClient.invalidateQueries({ queryKey: ['inventory'] }),
+        queryClient.invalidateQueries({ queryKey: ['warehouses'] }),
+        queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] }),
+      ])
+    },
+  })
 
   const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -85,34 +104,72 @@ export function MigrationPage() {
     <Stack spacing={2}>
       <Box>
         <Chip label="Transición desde JR Platform Desktop" color="primary" variant="outlined" />
-        <Typography variant="h4" sx={{ mt: 1.2 }}>
-          Centro de migración
-        </Typography>
+        <Typography variant="h4" sx={{ mt: 1.2 }}>Centro de migración</Typography>
         <Typography color="text.secondary" sx={{ mt: 0.6, maxWidth: 850 }}>
-          Prepara los datos de la aplicación de escritorio para trasladarlos a la versión web sin
-          perder clientes, trabajos, facturas ni compras.
+          Importa los datos útiles de la aplicación de escritorio y prepara futuras migraciones.
         </Typography>
       </Box>
 
       <Alert severity="info" icon={<InfoOutlinedIcon />}>
-        Esta fase prepara y valida los archivos. La importación definitiva se hará después de revisar
-        una muestra de los datos exportados desde la aplicación de escritorio.
+        El tarifario privado está guardado en <strong>private-import/tariff_items.csv</strong>. La
+        carpeta está excluida de Git para que los precios no se publiquen en el repositorio.
       </Alert>
+
+      <Card>
+        <CardContent>
+          <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" gap={2}>
+            <Box>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <LocalOfferOutlinedIcon color="primary" />
+                <Typography variant="h6">Tarifario heredado</Typography>
+              </Stack>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 0.8 }}>
+                Se detectaron 1.135 artículos en la base SQLite antigua. La importación es
+                idempotente: puedes repetirla sin duplicar códigos.
+              </Typography>
+            </Box>
+            <Button
+              variant="contained"
+              startIcon={<CloudUploadOutlinedIcon />}
+              onClick={() => importMutation.mutate()}
+              disabled={importMutation.isPending}
+            >
+              Importar tarifario
+            </Button>
+          </Stack>
+          {importMutation.isPending && <LinearProgress sx={{ mt: 2 }} />}
+          {importMutation.data && (
+            <Alert severity="success" sx={{ mt: 2 }}>
+              {importMutation.data.total_rows} filas procesadas: {importMutation.data.created}{' '}
+              artículos creados, {importMutation.data.updated} actualizados y{' '}
+              {importMutation.data.skipped} omitidos.
+            </Alert>
+          )}
+          {importMutation.error && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {importMutation.error instanceof ApiError
+                ? importMutation.error.message
+                : 'No se pudo importar el tarifario'}
+            </Alert>
+          )}
+        </CardContent>
+      </Card>
 
       <Grid container spacing={1.5}>
         <Grid size={{ xs: 12, lg: 5 }}>
           <Card sx={{ height: '100%' }}>
             <CardContent>
-              <Typography variant="h6">1. Localizar los datos de origen</Typography>
+              <Typography variant="h6">Otros datos disponibles</Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mt: 0.7 }}>
-                En el ordenador actual necesitamos encontrar uno de estos elementos:
+                La copia analizada incluye el código fuente, 131 tablas y copias de seguridad, pero
+                clientes, proveedores, trabajos y facturas estaban vacíos.
               </Typography>
               <Stack spacing={1.1} sx={{ mt: 2 }}>
                 {[
-                  'Exportaciones CSV o Excel de clientes, proveedores, trabajos y facturas.',
-                  'Archivo de base de datos: .db, .sqlite, .sqlite3, .mdb o .accdb.',
-                  'Carpeta de datos, copias de seguridad o documentos generados.',
-                  'Capturas de las pantallas de exportación disponibles.',
+                  '1.135 artículos de tarifario listos para importar.',
+                  '1 almacén principal detectado.',
+                  'Esquema completo disponible como referencia funcional.',
+                  'Las bases SQLite superaron la comprobación de integridad.',
                 ].map((item) => (
                   <Stack key={item} direction="row" spacing={1} alignItems="flex-start">
                     <CheckCircleOutlineIcon color="primary" fontSize="small" />
@@ -127,10 +184,10 @@ export function MigrationPage() {
         <Grid size={{ xs: 12, lg: 7 }}>
           <Card sx={{ height: '100%' }}>
             <CardContent>
-              <Typography variant="h6">2. Cargar una muestra para revisar</Typography>
+              <Typography variant="h6">Revisar una exportación futura</Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mt: 0.7 }}>
-                Selecciona un archivo exportado. En esta versión solo se registra el nombre del archivo;
-                no se modifica la base de datos.
+                Selecciona un archivo para comprobar su nombre antes de preparar un importador.
+                El navegador no lo envía ni modifica la base de datos.
               </Typography>
               <Box
                 sx={{
@@ -154,14 +211,9 @@ export function MigrationPage() {
                   <Typography fontWeight={700}>
                     {selectedFile ?? 'Selecciona un CSV, Excel o archivo de base de datos'}
                   </Typography>
-                  <Button component="label" variant="contained">
+                  <Button component="label" variant="outlined">
                     Elegir archivo
-                    <input
-                      hidden
-                      type="file"
-                      accept=".csv,.xlsx,.xls,.db,.sqlite,.sqlite3,.mdb,.accdb"
-                      onChange={handleFile}
-                    />
+                    <input hidden type="file" accept=".csv,.xlsx,.xls,.db,.sqlite,.sqlite3,.mdb,.accdb" onChange={handleFile} />
                   </Button>
                 </Stack>
               </Box>
@@ -173,7 +225,7 @@ export function MigrationPage() {
       <Box>
         <Typography variant="h5">Plantillas de intercambio</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-          Sirven para comparar las columnas de la aplicación antigua con el formato de JR Platform Web.
+          Formatos para preparar futuras importaciones desde otras herramientas.
         </Typography>
       </Box>
 
@@ -186,12 +238,7 @@ export function MigrationPage() {
                 <Typography variant="body2" color="text.secondary" sx={{ mt: 0.6, minHeight: 42 }}>
                   {template.description}
                 </Typography>
-                <Button
-                  sx={{ mt: 1.6 }}
-                  variant="outlined"
-                  startIcon={<DownloadOutlinedIcon />}
-                  onClick={() => downloadTemplate(template)}
-                >
+                <Button sx={{ mt: 1.6 }} variant="outlined" startIcon={<DownloadOutlinedIcon />} onClick={() => downloadTemplate(template)}>
                   Descargar {template.filename}
                 </Button>
               </CardContent>
@@ -199,16 +246,6 @@ export function MigrationPage() {
           </Grid>
         ))}
       </Grid>
-
-      <Card>
-        <CardContent>
-          <Typography variant="h6">Orden recomendado de migración</Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.8 }}>
-            1. Usuarios → 2. Clientes y proveedores → 3. Trabajos → 4. Presupuestos y facturas →
-            5. Pagos y gastos → 6. Documentos adjuntos.
-          </Typography>
-        </CardContent>
-      </Card>
     </Stack>
   )
 }

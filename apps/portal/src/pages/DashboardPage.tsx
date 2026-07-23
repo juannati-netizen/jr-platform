@@ -2,6 +2,7 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined'
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import RequestQuoteOutlinedIcon from '@mui/icons-material/RequestQuoteOutlined'
@@ -115,6 +116,9 @@ export function DashboardPage() {
     }
     if (summary.pending_expenses > 0) {
       items.push(`${summary.pending_expenses} gasto(s) continúan pendientes de pago.`)
+    }
+    if (summary.low_stock_items > 0) {
+      items.push(`${summary.low_stock_items} referencia(s) están en nivel mínimo de stock.`)
     }
     return items
   }, [summary])
@@ -247,7 +251,10 @@ export function DashboardPage() {
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {summary?.total_clients ?? 0} clientes · {summary?.open_work_orders ?? 0} trabajos abiertos ·{' '}
-                {summary?.active_suppliers ?? 0} proveedores activos.
+                {summary?.active_suppliers ?? 0} proveedores · {summary?.active_catalog_items ?? 0} artículos.
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Inventario valorado en {euro(summary?.inventory_value ?? '0')} · {summary?.low_stock_items ?? 0} alertas.
               </Typography>
             </Stack>
           </WorkspacePanel>
@@ -292,9 +299,9 @@ export function DashboardPage() {
                     Factura
                   </Button>
                 </Grid>
-                <Grid size={{ xs: 12, md: 2.4 }}>
-                  <Button fullWidth variant="contained" component={Link} to="/work-orders" startIcon={<ViewKanbanOutlinedIcon />}>
-                    Ver Kanban
+                <Grid size={{ xs: 6, md: 2.4 }}>
+                  <Button fullWidth variant="contained" component={Link} to="/inventory" startIcon={<Inventory2OutlinedIcon />}>
+                    Inventario
                   </Button>
                 </Grid>
               </Grid>

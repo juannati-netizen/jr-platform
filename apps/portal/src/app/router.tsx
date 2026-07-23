@@ -1,9 +1,11 @@
 import { Outlet, createRootRoute, createRoute, createRouter } from '@tanstack/react-router'
 
 import { ProtectedLayout } from '../components/ProtectedLayout'
+import { CatalogPage } from '../pages/CatalogPage'
 import { ClientsPage } from '../pages/ClientsPage'
 import { DashboardPage } from '../pages/DashboardPage'
 import { ExpensesPage } from '../pages/ExpensesPage'
+import { InventoryPage } from '../pages/InventoryPage'
 import { InvoicesPage } from '../pages/InvoicesPage'
 import { LoginPage } from '../pages/LoginPage'
 import { MigrationPage } from '../pages/MigrationPage'
@@ -32,6 +34,18 @@ const dashboardRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/',
   component: DashboardPage,
+})
+
+const catalogRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/catalog',
+  component: CatalogPage,
+})
+
+const inventoryRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/inventory',
+  component: InventoryPage,
 })
 
 const clientsRoute = createRoute({
@@ -99,6 +113,8 @@ const routeTree = rootRoute.addChildren([
   protectedRoute.addChildren([
     dashboardRoute,
     clientsRoute,
+    catalogRoute,
+    inventoryRoute,
     workOrdersRoute,
     quotesRoute,
     invoicesRoute,

@@ -93,6 +93,9 @@ export interface DashboardSummary {
   pending_total: string
   overdue_invoices: number
   active_suppliers: number
+  active_catalog_items: number
+  low_stock_items: number
+  inventory_value: string
   pending_expenses: number
   expenses_total: string
   material_costs: string
@@ -253,4 +256,91 @@ export interface ProfitabilitySummary {
   gross_margin_percent: string
   work_orders: WorkOrderProfitability[]
   clients: ClientProfitability[]
+}
+
+export type StockMovementType = 'entry' | 'exit' | 'assignment' | 'return' | 'adjustment'
+
+export interface CatalogItem {
+  id: string
+  legacy_id: number | null
+  code: string
+  family: string
+  description: string
+  unit: string
+  purchase_price: string
+  sale_price: string
+  labor_hours: string
+  supplier_name: string | null
+  tax_rate: string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface Warehouse {
+  id: string
+  name: string
+  kind: string
+  location: string | null
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface InventoryLevel {
+  id: string
+  catalog_item: {
+    id: string
+    code: string
+    description: string
+    unit: string
+    purchase_price: string
+  }
+  warehouse: {
+    id: string
+    name: string
+  }
+  stock: string
+  reserved: string
+  available: string
+  min_stock: string
+  low_stock: boolean
+  shelf: string | null
+  barcode: string | null
+  inventory_value: string
+  updated_at: string
+}
+
+export interface StockMovement {
+  id: string
+  catalog_item: {
+    id: string
+    code: string
+    description: string
+    unit: string
+    purchase_price: string
+  }
+  warehouse: {
+    id: string
+    name: string
+  }
+  work_order_id: string | null
+  created_by: UserReference
+  movement_type: StockMovementType
+  quantity: string
+  unit_cost: string
+  total_cost: string
+  reference: string | null
+  notes: string | null
+  movement_date: string
+  created_at: string
+}
+
+export interface LegacyTariffImportResult {
+  source_file: string
+  created: number
+  updated: number
+  skipped: number
+  total_rows: number
+  warehouse_created: boolean
 }

@@ -7,6 +7,8 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import KeyboardCommandKeyIcon from '@mui/icons-material/KeyboardCommandKey'
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined'
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -122,6 +124,18 @@ export function AppShell() {
             to: '/suppliers',
             icon: <LocalShippingOutlinedIcon />,
             visible: user?.role === 'admin',
+          },
+          {
+            label: 'Tarifario y materiales',
+            to: '/catalog',
+            icon: <LocalOfferOutlinedIcon />,
+            visible: true,
+          },
+          {
+            label: 'Almacén e inventario',
+            to: '/inventory',
+            icon: <Inventory2OutlinedIcon />,
+            visible: true,
           },
           {
             label: 'Gastos y compras',
@@ -299,7 +313,7 @@ export function AppShell() {
       >
         <Toolbar variant="dense" sx={{ minHeight: `${globalBarHeight}px !important`, px: 1.25 }}>
           <Typography variant="caption" fontWeight={760} sx={{ mr: 3 }}>
-            JR Electricista · JR Platform 0.7.0
+            JR Electricista · JR Platform 0.8.0
           </Typography>
           <Stack direction="row" spacing={2.5} sx={{ display: { xs: 'none', md: 'flex' } }}>
             {['Espacio de trabajo', 'Apariencia', 'Perfiles', 'Herramientas'].map((item) => (

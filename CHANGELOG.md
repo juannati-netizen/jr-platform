@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.8.0] - Sprint 7
+
+- Tarifario técnico y comercial.
+- Importación idempotente de 1.135 artículos desde JR Platform Desktop.
+- Almacenes y existencias por artículo.
+- Entradas, salidas, devoluciones, ajustes y asignaciones a trabajos.
+- Alertas de stock mínimo y valoración del inventario.
+- Coste de materiales de almacén integrado en la rentabilidad.
+- Datos privados de importación excluidos del repositorio público.
+- Nueva migración y pruebas automáticas de inventario.
+
 ## [0.7.0] - Sprint 6
 
 - Nuevo diseño oscuro Enterprise Workspace inspirado en JR Platform Desktop.
