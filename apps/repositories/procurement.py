@@ -20,7 +20,6 @@ from apps.schemas.procurement import (
     WorkOrderProfitability,
 )
 
-
 TWOPLACES = Decimal("0.01")
 
 
@@ -214,9 +213,7 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
             .options(selectinload(Expense.work_order).selectinload(WorkOrder.client))
         ).all()
     )
-    work_orders = list(
-        db.scalars(select(WorkOrder).options(selectinload(WorkOrder.client))).all()
-    )
+    work_orders = list(db.scalars(select(WorkOrder).options(selectinload(WorkOrder.client))).all())
     clients = list(db.scalars(select(Client).order_by(Client.name)).all())
 
     work_order_values: dict[str, dict[str, Decimal]] = {
@@ -255,10 +252,10 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
             metrics = work_order_values.setdefault(
                 invoice.work_order_id,
                 {
-                "invoiced": Decimal("0.00"),
-                "collected": Decimal("0.00"),
-                "expenses": Decimal("0.00"),
-            },
+                    "invoiced": Decimal("0.00"),
+                    "collected": Decimal("0.00"),
+                    "expenses": Decimal("0.00"),
+                },
             )
             metrics["invoiced"] += invoice.total
             metrics["collected"] += invoice.paid_total
@@ -273,30 +270,30 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
             metrics = work_order_values.setdefault(
                 expense.work_order_id,
                 {
-                "invoiced": Decimal("0.00"),
-                "collected": Decimal("0.00"),
-                "expenses": Decimal("0.00"),
-            },
+                    "invoiced": Decimal("0.00"),
+                    "collected": Decimal("0.00"),
+                    "expenses": Decimal("0.00"),
+                },
             )
             metrics["expenses"] += expense.total
             client_metrics = client_values.setdefault(
                 expense.work_order.client_id,
                 {
-                "invoiced": Decimal("0.00"),
-                "collected": Decimal("0.00"),
-                "expenses": Decimal("0.00"),
-            },
+                    "invoiced": Decimal("0.00"),
+                    "collected": Decimal("0.00"),
+                    "expenses": Decimal("0.00"),
+                },
             )
             client_metrics["expenses"] += expense.total
 
     work_order_report = []
-    for item in work_orders:
-        values = work_order_values[item.id]
+    for work_order in work_orders:
+        values = work_order_values[work_order.id]
         work_order_report.append(
             WorkOrderProfitability(
-                id=item.id,
-                title=item.title,
-                client_name=item.client.name,
+                id=work_order.id,
+                title=work_order.title,
+                client_name=work_order.client.name,
                 invoiced_revenue=money(values["invoiced"]),
                 collected_revenue=money(values["collected"]),
                 expenses_total=money(values["expenses"]),
@@ -307,12 +304,12 @@ def get_profitability_summary(db: Session) -> ProfitabilitySummary:
     work_order_report.sort(key=lambda item: item.gross_margin, reverse=True)
 
     client_report = []
-    for item in clients:
-        values = client_values[item.id]
+    for client in clients:
+        values = client_values[client.id]
         client_report.append(
             ClientProfitability(
-                id=item.id,
-                name=item.name,
+                id=client.id,
+                name=client.name,
                 invoiced_revenue=money(values["invoiced"]),
                 collected_revenue=money(values["collected"]),
                 expenses_total=money(values["expenses"]),

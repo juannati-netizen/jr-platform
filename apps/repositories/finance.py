@@ -23,7 +23,6 @@ from apps.schemas.finance import (
     QuoteUpdate,
 )
 
-
 TWOPLACES = Decimal("0.01")
 
 
@@ -51,9 +50,12 @@ def line_values(item: LineItemInput) -> tuple[Decimal, Decimal, Decimal]:
 
 def next_number(db: Session, model: type[Quote] | type[Invoice], prefix: str) -> str:
     year = date.today().year
-    count = db.scalar(
-        select(func.count()).select_from(model).where(model.number.like(f"{prefix}-{year}-%"))
-    ) or 0
+    count = (
+        db.scalar(
+            select(func.count()).select_from(model).where(model.number.like(f"{prefix}-{year}-%"))
+        )
+        or 0
+    )
     return f"{prefix}-{year}-{count + 1:04d}"
 
 
