@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
-from apps.api.dependencies.auth import require_roles
+from apps.api.dependencies.auth import get_current_user, require_roles
 from apps.db.session import get_db
 from apps.models.settings import AiProvider, FiscalYearStatus, VerifactuMode
 from apps.models.user import User, UserRole
@@ -31,6 +31,7 @@ from apps.schemas.settings import (
     AiReadiness,
     CompanyProfileRead,
     CompanyProfileUpdate,
+    CompanyPublicProfile,
     ConfigurationEventRead,
     FiscalYearCreate,
     FiscalYearRead,
@@ -43,6 +44,14 @@ from apps.schemas.settings import (
 router = APIRouter()
 AdminUser = Annotated[User, Depends(require_roles(UserRole.ADMIN))]
 DbSession = Annotated[Session, Depends(get_db)]
+
+
+@router.get("/company/public", response_model=CompanyPublicProfile)
+def read_public_company_profile(
+    db: DbSession,
+    _: Annotated[User, Depends(get_current_user)],
+) -> CompanyPublicProfile:
+    return CompanyPublicProfile.model_validate(get_company_profile(db))
 
 
 @router.get("/company", response_model=CompanyProfileRead)

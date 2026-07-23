@@ -13,6 +13,7 @@ from apps.api.v1.routes.projects import router as projects_router
 from apps.api.v1.routes.quotes import router as quotes_router
 from apps.api.v1.routes.settings import router as settings_router
 from apps.api.v1.routes.suppliers import router as suppliers_router
+from apps.api.v1.routes.tax import router as tax_router
 from apps.api.v1.routes.users import router as users_router
 from apps.api.v1.routes.warehouses import router as warehouses_router
 from apps.api.v1.routes.work_orders import router as work_orders_router
@@ -38,3 +39,4 @@ api_router.include_router(
 )
 api_router.include_router(dashboard_router, prefix="/dashboard", tags=["dashboard"])
 api_router.include_router(settings_router, prefix="/settings", tags=["settings"])
+api_router.include_router(tax_router, prefix="/tax", tags=["tax"])

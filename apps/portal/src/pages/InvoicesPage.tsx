@@ -32,6 +32,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { type FormEvent, useState } from 'react'
 
 import { ApiError } from '../api/client'
+import { getPublicCompanyProfile } from '../api/settings'
 import { getClients } from '../api/clients'
 import {
   type LineItemInput,
@@ -57,7 +58,7 @@ const firstItem: LineItemInput = {
   description: '',
   quantity: '1.00',
   unit_price: '0.00',
-  tax_rate: '21.00',
+  tax_rate: '7.00',
 }
 
 export function InvoicesPage() {
@@ -80,6 +81,7 @@ export function InvoicesPage() {
   })
 
   const invoicesQuery = useQuery({ queryKey: ['invoices'], queryFn: getInvoices })
+  const companyQuery = useQuery({ queryKey: ['company-public-profile'], queryFn: getPublicCompanyProfile })
   const clientsQuery = useQuery({ queryKey: ['clients', 'active'], queryFn: () => getClients(true) })
 
   const refresh = async () => {
@@ -311,7 +313,7 @@ export function InvoicesPage() {
                       <TableCell>Concepto</TableCell>
                       <TableCell align="right">Cantidad</TableCell>
                       <TableCell align="right">Precio</TableCell>
-                      <TableCell align="right">IVA</TableCell>
+                      <TableCell align="right">IGIC</TableCell>
                       <TableCell align="right">Total</TableCell>
                     </TableRow>
                   </TableHead>
@@ -356,7 +358,7 @@ export function InvoicesPage() {
               </Stack>
             </DialogContent>
             <DialogActions>
-              <Button startIcon={<PrintOutlinedIcon />} onClick={() => printFinancialDocument(selected)}>
+              <Button startIcon={<PrintOutlinedIcon />} onClick={() => printFinancialDocument(selected, companyQuery.data)}>
                 Imprimir
               </Button>
               {user?.role === 'admin' && Number(selected.pending_total) > 0 && selected.status !== 'cancelled' && (

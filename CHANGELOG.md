@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.11.0] - Sprint 10
+
+- Logotipo, color corporativo y pie documental configurables.
+- Identidad empresarial visible en el menú y documentos imprimibles.
+- Fiscalidad IGIC configurada para el modelo 420 trimestral.
+- Seguimiento mensual del IGIC repercutido y soportado.
+- Ajustes fiscales documentados, cierre y reapertura de periodos.
+- Borrador trimestral y exportación CSV del modelo 420.
+- Tipo general predeterminado actualizado al 7 % para nuevas operaciones.
+- Nueva migración y pruebas automáticas de fiscalidad y marca.
+
 ## [0.10.0] - Sprint 9
 
 - Configuración empresarial y datos fiscales.

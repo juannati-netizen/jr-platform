@@ -60,7 +60,7 @@ const emptyForm: ExpenseInput = {
   status: 'pending',
   expense_date: today(),
   subtotal: '',
-  tax_rate: '21.00',
+  tax_rate: '7.00',
   reference: '',
   notes: '',
 }

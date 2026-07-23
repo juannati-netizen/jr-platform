@@ -56,7 +56,7 @@ class CatalogItem(Base):
     sale_price: Mapped[Decimal] = mapped_column(MONEY, default=Decimal("0.00"))
     labor_hours: Mapped[Decimal] = mapped_column(HOURS, default=Decimal("0.00"))
     supplier_name: Mapped[str | None] = mapped_column(String(180), nullable=True)
-    tax_rate: Mapped[Decimal] = mapped_column(PERCENTAGE, default=Decimal("21.00"))
+    tax_rate: Mapped[Decimal] = mapped_column(PERCENTAGE, default=Decimal("7.00"))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
     updated_at: Mapped[datetime] = mapped_column(

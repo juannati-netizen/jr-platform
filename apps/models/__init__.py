@@ -45,6 +45,15 @@ from apps.models.settings import (
     VerifactuConfiguration,
     VerifactuMode,
 )
+from apps.models.tax import (
+    TaxAdjustment,
+    TaxAdjustmentDirection,
+    TaxConfiguration,
+    TaxFilingModel,
+    TaxPeriod,
+    TaxPeriodStatus,
+    TaxSystem,
+)
 from apps.models.user import User, UserRole
 from apps.models.work_order import (
     WorkOrder,
@@ -90,6 +99,13 @@ __all__ = [
     "FiscalYearStatus",
     "VerifactuConfiguration",
     "VerifactuMode",
+    "TaxAdjustment",
+    "TaxAdjustmentDirection",
+    "TaxConfiguration",
+    "TaxFilingModel",
+    "TaxPeriod",
+    "TaxPeriodStatus",
+    "TaxSystem",
     "Supplier",
     "User",
     "UserRole",

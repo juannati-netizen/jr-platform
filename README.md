@@ -90,3 +90,11 @@ También puedes iniciar la importación desde **Compras y almacén → Tarifario
 ## Configuración empresarial
 
 Los administradores pueden gestionar empresa, ejercicios fiscales, preparación VERI*FACTU e IA desde **Sistema → Configuración empresarial**.
+
+## Identidad visual y fiscalidad IGIC
+
+Desde **Sistema → Configuración empresarial** puedes subir el logotipo, elegir el color corporativo y definir el pie de los documentos.
+
+Desde **Gestión → Fiscalidad e IGIC** puedes revisar cada mes, cerrar periodos, registrar ajustes documentados y preparar un borrador trimestral del modelo 420 en CSV.
+
+Los cálculos son orientativos y no sustituyen la autoliquidación oficial ni la revisión profesional.

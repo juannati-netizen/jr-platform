@@ -14,7 +14,7 @@ const emptyItem: LineItemInput = {
   description: '',
   quantity: '1.00',
   unit_price: '0.00',
-  tax_rate: '21.00',
+  tax_rate: '7.00',
 }
 
 export function LineItemsEditor({ items, onChange }: LineItemsEditorProps) {
@@ -83,7 +83,7 @@ export function LineItemsEditor({ items, onChange }: LineItemsEditorProps) {
               fullWidth
               required
               type="number"
-              label="IVA %"
+              label="IGIC %"
               value={item.tax_rate}
               slotProps={{ htmlInput: { min: 0, max: 100, step: 0.01 } }}
               onChange={(event) => update(index, 'tax_rate', event.target.value)}

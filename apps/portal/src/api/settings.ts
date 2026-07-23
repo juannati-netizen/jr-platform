@@ -20,8 +20,29 @@ export interface CompanyProfile {
   quote_prefix: string
   currency: string
   timezone: string
+  logo_data_url: string | null
+  brand_color: string
+  document_footer: string | null
   created_at: string
   updated_at: string
+}
+
+
+export interface CompanyPublicProfile {
+  legal_name: string
+  trade_name: string | null
+  tax_id: string
+  address: string | null
+  postal_code: string | null
+  city: string | null
+  province: string | null
+  country: string
+  email: string | null
+  phone: string | null
+  website: string | null
+  logo_data_url: string | null
+  brand_color: string
+  document_footer: string | null
 }
 
 export type CompanyProfilePayload = Omit<CompanyProfile, 'id' | 'created_at' | 'updated_at'>
@@ -139,6 +160,9 @@ export interface ConfigurationEvent {
 }
 
 export const getCompanyProfile = () => apiRequest<CompanyProfile>('/settings/company')
+
+export const getPublicCompanyProfile = () =>
+  apiRequest<CompanyPublicProfile>('/settings/company/public')
 
 export const updateCompanyProfile = (payload: CompanyProfilePayload) =>
   apiRequest<CompanyProfile>('/settings/company', {

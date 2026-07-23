@@ -59,6 +59,9 @@ class CompanyProfile(Base):
     quote_prefix: Mapped[str] = mapped_column(String(20), default="P")
     currency: Mapped[str] = mapped_column(String(3), default="EUR")
     timezone: Mapped[str] = mapped_column(String(80), default="Europe/Madrid")
+    logo_data_url: Mapped[str | None] = mapped_column(Text, nullable=True)
+    brand_color: Mapped[str] = mapped_column(String(7), default="#1976d2")
+    document_footer: Mapped[str | None] = mapped_column(String(500), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=utc_now, onupdate=utc_now
@@ -97,7 +100,7 @@ class VerifactuConfiguration(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
     mode: Mapped[str] = mapped_column(String(30), default=VerifactuMode.DISABLED.value)
     system_name: Mapped[str] = mapped_column(String(180), default="JR Platform")
-    system_version: Mapped[str] = mapped_column(String(60), default="0.10.0")
+    system_version: Mapped[str] = mapped_column(String(60), default="0.11.0")
     producer_name: Mapped[str | None] = mapped_column(String(220), nullable=True)
     producer_tax_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
     qr_enabled: Mapped[bool] = mapped_column(Boolean, default=False)

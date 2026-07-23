@@ -91,7 +91,7 @@ export function updateOpportunity(
 export function convertOpportunityToQuote(opportunityId: string): Promise<Quote> {
   return apiRequest<Quote>(`/crm/opportunities/${opportunityId}/convert-to-quote`, {
     method: 'POST',
-    body: JSON.stringify({ tax_rate: '21.00' }),
+    body: JSON.stringify({ tax_rate: '7.00' }),
   })
 }
 

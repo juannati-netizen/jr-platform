@@ -190,7 +190,7 @@ class OpportunityStageHistoryRead(BaseModel):
 
 
 class OpportunityQuoteConversion(BaseModel):
-    tax_rate: Decimal = Field(default=Decimal("21.00"), ge=0, le=100, decimal_places=2)
+    tax_rate: Decimal = Field(default=Decimal("7.00"), ge=0, le=100, decimal_places=2)
     notes: str | None = Field(default=None, max_length=3000)
 
 

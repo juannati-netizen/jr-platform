@@ -68,6 +68,9 @@ const emptyCompany: CompanyProfilePayload = {
   quote_prefix: 'P',
   currency: 'EUR',
   timezone: 'Europe/Madrid',
+  logo_data_url: null,
+  brand_color: '#1976d2',
+  document_footer: '',
 }
 
 const emptyFiscalYear: FiscalYearPayload = {
@@ -80,7 +83,7 @@ const emptyFiscalYear: FiscalYearPayload = {
 const emptyVerifactu: VerifactuPayload = {
   mode: 'disabled',
   system_name: 'JR Platform',
-  system_version: '0.10.0',
+  system_version: '0.11.0',
   producer_name: '',
   producer_tax_id: '',
   qr_enabled: false,
@@ -224,6 +227,7 @@ export function SettingsPage() {
   const refreshSettings = async () => {
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: ['company-profile'] }),
+      queryClient.invalidateQueries({ queryKey: ['company-public-profile'] }),
       queryClient.invalidateQueries({ queryKey: ['fiscal-years'] }),
       queryClient.invalidateQueries({ queryKey: ['verifactu-config'] }),
       queryClient.invalidateQueries({ queryKey: ['verifactu-readiness'] }),
@@ -257,6 +261,25 @@ export function SettingsPage() {
     mutationFn: updateAiConfiguration,
     onSuccess: refreshSettings,
   })
+
+  const handleLogoFile = (file: File | undefined) => {
+    if (!file) return
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+      window.alert('Selecciona un archivo PNG, JPG o WebP.')
+      return
+    }
+    if (file.size > 1_500_000) {
+      window.alert('El logotipo no puede superar 1,5 MB.')
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        setCompany((current) => ({ ...current, logo_data_url: reader.result as string }))
+      }
+    }
+    reader.readAsDataURL(file)
+  }
 
   const busy =
     companyQuery.isLoading ||
@@ -314,8 +337,58 @@ export function SettingsPage() {
           companyMutation.mutate(company)
         }}>
           <CardContent>
-            <Typography variant="h6">Identificación y datos fiscales</Typography>
+            <Typography variant="h6">Identificación, marca y datos fiscales</Typography>
             <Grid container spacing={1.5} sx={{ mt: 0.4 }}>
+              <Grid size={{ xs: 12 }}>
+                <Card variant="outlined" sx={{ bgcolor: '#141d26' }}>
+                  <CardContent>
+                    <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems={{ md: 'center' }}>
+                      <Box
+                        sx={{
+                          width: 150,
+                          height: 90,
+                          border: '1px dashed',
+                          borderColor: 'divider',
+                          borderRadius: 1,
+                          display: 'grid',
+                          placeItems: 'center',
+                          bgcolor: '#fff',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {company.logo_data_url ? (
+                          <Box component="img" src={company.logo_data_url} alt="Logotipo de la empresa" sx={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                        ) : (
+                          <Typography variant="caption" color="text.secondary">Sin logotipo</Typography>
+                        )}
+                      </Box>
+                      <Stack spacing={1} sx={{ flex: 1 }}>
+                        <Typography fontWeight={750}>Identidad visual</Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          El logotipo aparecerá en la cabecera y en los documentos imprimibles.
+                        </Typography>
+                        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
+                          <Button component="label" variant="outlined">
+                            Seleccionar logo
+                            <input hidden type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => handleLogoFile(event.target.files?.[0])} />
+                          </Button>
+                          <Button color="warning" disabled={!company.logo_data_url} onClick={() => setCompany({ ...company, logo_data_url: null })}>
+                            Quitar logo
+                          </Button>
+                        </Stack>
+                      </Stack>
+                      <TextField
+                        label="Color corporativo"
+                        type="color"
+                        value={company.brand_color}
+                        onChange={(event) => setCompany({ ...company, brand_color: event.target.value })}
+                        sx={{ width: 150 }}
+                        slotProps={{ inputLabel: { shrink: true } }}
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+              </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
                 <TextField fullWidth required label="Razón social" value={company.legal_name} onChange={(event) => setCompany({ ...company, legal_name: event.target.value })} />
               </Grid>
@@ -369,6 +442,9 @@ export function SettingsPage() {
               </Grid>
               <Grid size={{ xs: 6, md: 1 }}>
                 <TextField fullWidth label="Zona" value={company.timezone} onChange={(event) => setCompany({ ...company, timezone: event.target.value })} />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <TextField fullWidth multiline minRows={2} label="Pie de presupuestos y facturas" value={company.document_footer ?? ''} onChange={(event) => setCompany({ ...company, document_footer: event.target.value })} />
               </Grid>
             </Grid>
             {companyMutation.error && <Alert severity="error" sx={{ mt: 2 }}>{errorMessage(companyMutation.error)}</Alert>}

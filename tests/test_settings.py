@@ -23,6 +23,9 @@ def company_payload() -> dict[str, object]:
         "quote_prefix": "P",
         "currency": "EUR",
         "timezone": "Europe/Madrid",
+        "logo_data_url": None,
+        "brand_color": "#005bbb",
+        "document_footer": "Gracias por confiar en JR Energy",
     }
 
 
@@ -99,7 +102,7 @@ def test_verifactu_readiness_is_explicitly_not_a_certification(client: TestClien
         json={
             "mode": "preparation",
             "system_name": "JR Platform",
-            "system_version": "0.10.0",
+            "system_version": "0.11.0",
             "producer_name": "JR Platform",
             "producer_tax_id": "B12345678",
             "qr_enabled": True,
@@ -143,3 +146,39 @@ def test_ai_configuration_never_exposes_secret(client: TestClient) -> None:
     assert response.status_code == 200
     assert "api_key" not in response.json()
     assert response.json()["api_key_configured"] is False
+
+
+def test_admin_can_save_company_logo(client: TestClient) -> None:
+    headers = create_admin_and_login(client)
+    payload = company_payload()
+    payload["logo_data_url"] = "data:image/png;base64,aGVsbG8="
+
+    response = client.put("/api/v1/settings/company", headers=headers, json=payload)
+    public_response = client.get("/api/v1/settings/company/public", headers=headers)
+
+    assert response.status_code == 200
+    assert response.json()["logo_data_url"].startswith("data:image/png;base64,")
+    assert public_response.status_code == 200
+    assert public_response.json()["brand_color"] == "#005bbb"
+
+
+def test_invalid_company_logo_is_rejected(client: TestClient) -> None:
+    headers = create_admin_and_login(client)
+    payload = company_payload()
+    payload["logo_data_url"] = "data:image/svg+xml;base64,PHN2Zz4="
+
+    response = client.put("/api/v1/settings/company", headers=headers, json=payload)
+
+    assert response.status_code == 422
+
+
+def test_authenticated_user_can_read_public_company_identity(client: TestClient) -> None:
+    admin_headers = create_admin_and_login(client)
+    client.put("/api/v1/settings/company", headers=admin_headers, json=company_payload())
+    user_headers = register_and_login(client)
+
+    response = client.get("/api/v1/settings/company/public", headers=user_headers)
+
+    assert response.status_code == 200
+    assert response.json()["trade_name"] == "JR Energy"
+    assert "iban" not in response.json()

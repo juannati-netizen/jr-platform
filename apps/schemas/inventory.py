@@ -20,7 +20,7 @@ class CatalogItemCreate(BaseModel):
     sale_price: Decimal = Field(default=Decimal("0.00"), ge=0, decimal_places=2)
     labor_hours: Decimal = Field(default=Decimal("0.00"), ge=0, decimal_places=2)
     supplier_name: str | None = Field(default=None, max_length=180)
-    tax_rate: Decimal = Field(default=Decimal("21.00"), ge=0, le=100, decimal_places=2)
+    tax_rate: Decimal = Field(default=Decimal("7.00"), ge=0, le=100, decimal_places=2)
 
     @field_validator("code", "family", "description", "unit")
     @classmethod

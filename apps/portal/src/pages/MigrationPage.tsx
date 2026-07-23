@@ -63,7 +63,7 @@ const templates: TemplateDefinition[] = [
     filename: 'gastos.csv',
     description: 'Compras, materiales y otros costes.',
     content:
-      'supplier_tax_id,work_order_title,description,category,status,expense_date,subtotal,tax_rate,reference,notes\nB87654321,Instalación eléctrica,Material eléctrico,materials,paid,2026-07-02,100.00,21.00,TICKET-001,Importado desde escritorio\n',
+      'supplier_tax_id,work_order_title,description,category,status,expense_date,subtotal,tax_rate,reference,notes\nB87654321,Instalación eléctrica,Material eléctrico,materials,paid,2026-07-02,100.00,7.00,TICKET-001,Importado desde escritorio\n',
   },
 ]
 

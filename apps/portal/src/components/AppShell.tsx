@@ -19,6 +19,7 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined'
 import RequestQuoteOutlinedIcon from '@mui/icons-material/RequestQuoteOutlined'
 import SearchIcon from '@mui/icons-material/Search'
 import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined'
@@ -48,7 +49,7 @@ import { Link, Outlet, useRouterState } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { type ReactNode, useMemo, useState } from 'react'
 
-import { getCompanyProfile } from '../api/settings'
+import { getPublicCompanyProfile } from '../api/settings'
 import { useAuth } from '../auth/AuthContext'
 
 const drawerWidth = 238
@@ -80,9 +81,9 @@ export function AppShell() {
   })
   const pathname = useRouterState({ select: (state) => state.location.pathname })
   const companyQuery = useQuery({
-    queryKey: ['company-profile'],
-    queryFn: getCompanyProfile,
-    enabled: user?.role === 'admin',
+    queryKey: ['company-public-profile'],
+    queryFn: getPublicCompanyProfile,
+    enabled: Boolean(user),
     retry: false,
   })
   const workspaceName = companyQuery.data?.trade_name || companyQuery.data?.legal_name || 'JR ENERGY'
@@ -169,6 +170,12 @@ export function AppShell() {
             visible: user?.role === 'admin',
           },
           {
+            label: 'Fiscalidad e IGIC',
+            to: '/tax',
+            icon: <AccountBalanceOutlinedIcon />,
+            visible: user?.role === 'admin',
+          },
+          {
             label: 'Obras y expedientes',
             to: '/projects',
             icon: <EngineeringOutlinedIcon />,
@@ -219,7 +226,16 @@ export function AppShell() {
       <Stack direction="row" alignItems="center" spacing={1.25} sx={{ px: 1.5, py: 1.3 }}>
         <Avatar
           variant="rounded"
-          sx={{ width: 34, height: 34, bgcolor: '#263849', color: 'primary.light', fontWeight: 850 }}
+          src={companyQuery.data?.logo_data_url ?? undefined}
+          alt={workspaceName}
+          sx={{
+            width: 34,
+            height: 34,
+            bgcolor: companyQuery.data?.brand_color ?? '#263849',
+            color: '#fff',
+            fontWeight: 850,
+            '& img': { objectFit: 'contain', bgcolor: '#fff' },
+          }}
         >
           JR
         </Avatar>

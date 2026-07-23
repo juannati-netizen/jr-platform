@@ -17,7 +17,7 @@ class LineItemInput(BaseModel):
     description: str = Field(min_length=2, max_length=300)
     quantity: Decimal = Field(gt=0, decimal_places=2)
     unit_price: Decimal = Field(ge=0, decimal_places=2)
-    tax_rate: Decimal = Field(default=Decimal("21.00"), ge=0, le=100, decimal_places=2)
+    tax_rate: Decimal = Field(default=Decimal("7.00"), ge=0, le=100, decimal_places=2)
 
 
 class LineItemRead(LineItemInput):

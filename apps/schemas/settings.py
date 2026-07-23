@@ -24,6 +24,9 @@ class CompanyProfileUpdate(BaseModel):
     quote_prefix: str = Field(default="P", min_length=1, max_length=20)
     currency: str = Field(default="EUR", min_length=3, max_length=3)
     timezone: str = Field(default="Europe/Madrid", min_length=3, max_length=80)
+    logo_data_url: str | None = Field(default=None, max_length=3_000_000)
+    brand_color: str = Field(default="#1976d2", pattern=r"^#[0-9A-Fa-f]{6}$")
+    document_footer: str | None = Field(default=None, max_length=500)
 
     @field_validator(
         "trade_name",
@@ -37,6 +40,8 @@ class CompanyProfileUpdate(BaseModel):
         "phone",
         "website",
         "iban",
+        "logo_data_url",
+        "document_footer",
         mode="before",
     )
     @classmethod
@@ -54,6 +59,39 @@ class CompanyProfileUpdate(BaseModel):
     @classmethod
     def normalize_currency(cls, value: str) -> str:
         return value.strip().upper()
+
+    @field_validator("logo_data_url")
+    @classmethod
+    def validate_logo(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        allowed = (
+            "data:image/png;base64,",
+            "data:image/jpeg;base64,",
+            "data:image/webp;base64,",
+        )
+        if not value.startswith(allowed):
+            raise ValueError("El logotipo debe ser PNG, JPG o WebP")
+        return value
+
+
+class CompanyPublicProfile(BaseModel):
+    legal_name: str
+    trade_name: str | None
+    tax_id: str
+    address: str | None
+    postal_code: str | None
+    city: str | None
+    province: str | None
+    country: str
+    email: str | None
+    phone: str | None
+    website: str | None
+    logo_data_url: str | None
+    brand_color: str
+    document_footer: str | None
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CompanyProfileRead(CompanyProfileUpdate):
@@ -124,7 +162,7 @@ class FiscalYearRead(BaseModel):
 class VerifactuUpdate(BaseModel):
     mode: VerifactuMode = VerifactuMode.DISABLED
     system_name: str = Field(default="JR Platform", min_length=2, max_length=180)
-    system_version: str = Field(default="0.10.0", min_length=1, max_length=60)
+    system_version: str = Field(default="0.11.0", min_length=1, max_length=60)
     producer_name: str | None = Field(default=None, max_length=220)
     producer_tax_id: str | None = Field(default=None, max_length=32)
     qr_enabled: bool = False

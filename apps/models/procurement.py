@@ -90,7 +90,7 @@ class Expense(Base):
     )
     expense_date: Mapped[date] = mapped_column(Date, default=date.today, index=True)
     subtotal: Mapped[Decimal] = mapped_column(MONEY)
-    tax_rate: Mapped[Decimal] = mapped_column(PERCENTAGE, default=Decimal("21.00"))
+    tax_rate: Mapped[Decimal] = mapped_column(PERCENTAGE, default=Decimal("7.00"))
     tax_total: Mapped[Decimal] = mapped_column(MONEY)
     total: Mapped[Decimal] = mapped_column(MONEY)
     reference: Mapped[str | None] = mapped_column(String(120), nullable=True)

@@ -1,0 +1,45 @@
+JR PLATFORM — SPRINT 10
+Logotipo, identidad empresarial e IGIC modelo 420
+
+Este paquete es incremental. Debe copiarse sobre el proyecto existente.
+
+INSTALACIÓN
+1. Detén Docker con Ctrl+C.
+2. Descomprime este ZIP.
+3. Copia todo su contenido dentro de la carpeta del proyecto.
+4. Elige "Reemplazar los archivos en el destino".
+5. No borres tu archivo .env.
+6. Opcionalmente actualiza APP_VERSION en .env a 0.11.0.
+7. Ejecuta:
+   docker compose down
+   docker compose up --build --force-recreate
+8. Abre http://localhost:5173 y pulsa Ctrl+F5.
+
+NOVEDADES
+- Subida de logotipo PNG, JPG o WebP.
+- Color corporativo y pie de documentos.
+- Logo en la navegación, presupuestos y facturas impresas.
+- Tipo predeterminado del 7 % para nuevas operaciones.
+- Seguimiento mensual del IGIC.
+- Cierre y reapertura de periodos.
+- Ajustes manuales documentados.
+- Borrador trimestral y CSV del modelo 420.
+
+PRUEBAS MANUALES
+1. Sistema > Configuración empresarial > Empresa.
+2. Sube el logotipo y guarda los datos.
+3. Gestión > Fiscalidad e IGIC.
+4. Selecciona ejercicio y trimestre.
+5. Revisa los meses, añade un ajuste de prueba y descárgalo en CSV.
+
+VALIDACIÓN LOCAL RECOMENDADA
+docker compose run --rm --no-deps api sh -c 'pip install -e ".[dev]" && ruff check . --fix && ruff format . && ruff check . && ruff format --check . && mypy apps && pytest'
+
+GIT
+git add .
+git commit -m "PF-011 Add company branding and IGIC model 420 reporting"
+git push
+
+AVISO
+Los cálculos son estimaciones internas. No sustituyen la autoliquidación oficial
+ni la revisión de la documentación por un profesional tributario.
