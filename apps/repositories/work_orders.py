@@ -18,11 +18,7 @@ def _with_details() -> tuple[Any, ...]:
 
 
 def get_work_order(db: Session, work_order_id: str) -> WorkOrder | None:
-    statement = (
-        select(WorkOrder)
-        .where(WorkOrder.id == work_order_id)
-        .options(*_with_details())
-    )
+    statement = select(WorkOrder).where(WorkOrder.id == work_order_id).options(*_with_details())
     return db.scalar(statement)
 
 

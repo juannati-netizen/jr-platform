@@ -7,7 +7,6 @@ from apps.models.client import Client
 from apps.models.work_order import WorkOrder, WorkOrderStatus
 from apps.schemas.dashboard import DashboardSummary, StatusMetric
 
-
 OPEN_STATUSES = (
     WorkOrderStatus.DRAFT.value,
     WorkOrderStatus.PLANNED.value,
@@ -61,8 +60,7 @@ def get_dashboard_summary(db: Session) -> DashboardSummary:
     ).all()
     counts = {str(status): int(count) for status, count in status_rows}
     status_breakdown = [
-        StatusMetric(status=status, count=counts.get(status.value, 0))
-        for status in WorkOrderStatus
+        StatusMetric(status=status, count=counts.get(status.value, 0)) for status in WorkOrderStatus
     ]
 
     return DashboardSummary(
