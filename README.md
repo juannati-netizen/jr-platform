@@ -1,25 +1,18 @@
 # JR Platform
 
-JR Platform es una base modular con API FastAPI, PostgreSQL y un portal React protegido por autenticación JWT.
+JR Platform es una base operativa para gestionar usuarios, clientes y trabajos de servicio.
 
-## Sprint 2
+## Sprint actual
 
-Esta entrega incorpora:
+**0.4.0 · Gestión operativa**
 
-- Portal React + TypeScript + Vite.
-- Material UI.
-- TanStack Router y TanStack Query.
-- Inicio y cierre de sesión.
-- Rutas protegidas.
-- Panel principal y perfil.
-- Gestión de roles para administradores.
-- Docker para API, base de datos y portal.
-- CI independiente para backend y frontend.
-
-## Requisitos
-
-- Docker Desktop.
-- Git.
+- FastAPI y PostgreSQL.
+- Autenticación JWT, usuarios y roles.
+- Portal React + TypeScript.
+- Clientes.
+- Trabajos, estados, prioridades y responsables.
+- Notas de seguimiento.
+- Panel con métricas reales.
 
 ## Arranque rápido
 
@@ -37,34 +30,18 @@ docker compose up --build
 - Swagger: http://localhost:8000/docs
 - Health: http://localhost:8000/health
 
-## Credenciales de desarrollo
-
-```text
-Correo: admin@jrplatform.com
-Contraseña: ChangeMe123!
-```
-
-Cámbialas antes de publicar el sistema.
-
-## Calidad del backend
+## Calidad
 
 ```bash
-python -m venv .venv
-pip install -e ".[dev]"
 ruff check .
 ruff format --check .
 mypy apps
 pytest
-```
 
-## Calidad del portal
-
-```bash
 cd apps/portal
-npm install
 npm run check
 npm test
 npm run build
 ```
 
-Consulta `docs/sprint-2.md` para ver la arquitectura y los criterios de aceptación.
+Consulta `docs/sprint-3.md` para ver el alcance funcional.

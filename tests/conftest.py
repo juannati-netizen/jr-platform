@@ -12,9 +12,9 @@ from fastapi.testclient import TestClient
 from apps.api.main import app
 from apps.db.base import Base
 from apps.db.session import engine
-from apps.models.user import User
+from apps.models import Client, User, WorkOrder, WorkOrderNote
 
-_ = User
+_ = (Client, User, WorkOrder, WorkOrderNote)
 
 
 @pytest.fixture(autouse=True)

@@ -1,19 +1,14 @@
-import {
-  Outlet,
-  createRootRoute,
-  createRoute,
-  createRouter,
-} from '@tanstack/react-router'
+import { Outlet, createRootRoute, createRoute, createRouter } from '@tanstack/react-router'
 
 import { ProtectedLayout } from '../components/ProtectedLayout'
+import { ClientsPage } from '../pages/ClientsPage'
 import { DashboardPage } from '../pages/DashboardPage'
 import { LoginPage } from '../pages/LoginPage'
 import { ProfilePage } from '../pages/ProfilePage'
 import { UsersPage } from '../pages/UsersPage'
+import { WorkOrdersPage } from '../pages/WorkOrdersPage'
 
-const rootRoute = createRootRoute({
-  component: () => <Outlet />,
-})
+const rootRoute = createRootRoute({ component: () => <Outlet /> })
 
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -33,6 +28,18 @@ const dashboardRoute = createRoute({
   component: DashboardPage,
 })
 
+const clientsRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/clients',
+  component: ClientsPage,
+})
+
+const workOrdersRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/work-orders',
+  component: WorkOrdersPage,
+})
+
 const profileRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/profile',
@@ -47,13 +54,16 @@ const usersRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   loginRoute,
-  protectedRoute.addChildren([dashboardRoute, profileRoute, usersRoute]),
+  protectedRoute.addChildren([
+    dashboardRoute,
+    clientsRoute,
+    workOrdersRoute,
+    profileRoute,
+    usersRoute,
+  ]),
 ])
 
-export const router = createRouter({
-  routeTree,
-  defaultPreload: 'intent',
-})
+export const router = createRouter({ routeTree, defaultPreload: 'intent' })
 
 declare module '@tanstack/react-router' {
   interface Register {

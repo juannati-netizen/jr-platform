@@ -5,6 +5,10 @@ export function getUsers(): Promise<User[]> {
   return apiRequest<User[]>('/users')
 }
 
+export function getAssignableUsers(): Promise<User[]> {
+  return apiRequest<User[]>('/users/assignable')
+}
+
 export function updateUserRole(userId: string, role: UserRole): Promise<User> {
   return apiRequest<User>(`/users/${userId}/role`, {
     method: 'PATCH',

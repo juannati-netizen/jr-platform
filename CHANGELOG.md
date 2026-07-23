@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0] - Sprint 3
+
+- Gestión de clientes.
+- Gestión de trabajos con estados, prioridades y responsables.
+- Notas de seguimiento.
+- Panel operativo con métricas reales.
+- Migración de base de datos y pruebas automáticas.
+
 ## [0.3.0] - Sprint 2
 
 - Portal React + TypeScript + Vite.
