@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from pydantic import BaseModel
 
 from apps.models.work_order import WorkOrderStatus
@@ -16,3 +18,10 @@ class DashboardSummary(BaseModel):
     overdue_work_orders: int
     unassigned_work_orders: int
     status_breakdown: list[StatusMetric]
+    draft_quotes: int
+    accepted_quotes: int
+    quoted_total: Decimal
+    invoiced_total: Decimal
+    collected_total: Decimal
+    pending_total: Decimal
+    overdue_invoices: int

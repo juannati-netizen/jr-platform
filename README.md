@@ -1,20 +1,24 @@
 # JR Platform
 
-JR Platform es una base operativa para gestionar usuarios, clientes y trabajos de servicio.
+Plataforma operativa para clientes, trabajos, presupuestos y facturación.
 
-## Sprint actual
+## Funcionalidades actuales
 
-**0.4.0 · Gestión operativa**
-
-- FastAPI y PostgreSQL.
 - Autenticación JWT, usuarios y roles.
-- Portal React + TypeScript.
-- Clientes.
-- Trabajos, estados, prioridades y responsables.
-- Notas de seguimiento.
-- Panel con métricas reales.
+- Clientes y órdenes de trabajo.
+- Notas, responsables, estados y prioridades.
+- Presupuestos con conceptos e impuestos.
+- Conversión de presupuesto aceptado en factura.
+- Pagos parciales y completos.
+- Panel operativo y financiero.
+- Portal React con documentos imprimibles.
 
-## Arranque rápido
+## Requisitos
+
+- Docker Desktop
+- Git
+
+## Arranque
 
 1. Copia `.env.example` como `.env`.
 2. Ejecuta:
@@ -30,18 +34,32 @@ docker compose up --build
 - Swagger: http://localhost:8000/docs
 - Health: http://localhost:8000/health
 
+## Credenciales locales iniciales
+
+```text
+Correo: admin@jrplatform.com
+Contraseña: ChangeMe123!
+```
+
+Cambia estas credenciales antes de utilizar la plataforma fuera del entorno local.
+
 ## Calidad
+
+Backend:
 
 ```bash
 ruff check .
 ruff format --check .
 mypy apps
 pytest
+```
 
+Portal:
+
+```bash
 cd apps/portal
+npm install
 npm run check
 npm test
 npm run build
 ```
-
-Consulta `docs/sprint-3.md` para ver el alcance funcional.

@@ -1,4 +1,14 @@
 from apps.models.client import Client
+from apps.models.finance import (
+    Invoice,
+    InvoiceItem,
+    InvoiceStatus,
+    Payment,
+    PaymentMethod,
+    Quote,
+    QuoteItem,
+    QuoteStatus,
+)
 from apps.models.user import User, UserRole
 from apps.models.work_order import (
     WorkOrder,
@@ -9,6 +19,14 @@ from apps.models.work_order import (
 
 __all__ = [
     "Client",
+    "Invoice",
+    "InvoiceItem",
+    "InvoiceStatus",
+    "Payment",
+    "PaymentMethod",
+    "Quote",
+    "QuoteItem",
+    "QuoteStatus",
     "User",
     "UserRole",
     "WorkOrder",

@@ -6,4 +6,4 @@ def test_root(client: TestClient) -> None:
 
     assert response.status_code == 200
     assert response.json()["name"] == "JR Platform API"
-    assert response.json()["version"] == "0.4.0"
+    assert response.json()["version"] == "0.5.0"

@@ -1,8 +1,12 @@
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined'
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined'
+import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined'
 import PersonOffOutlinedIcon from '@mui/icons-material/PersonOffOutlined'
+import RequestQuoteOutlinedIcon from '@mui/icons-material/RequestQuoteOutlined'
 import {
   Alert,
   Box,
@@ -20,6 +24,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ApiError } from '../api/client'
 import { getDashboardSummary } from '../api/dashboard'
 import { useAuth } from '../auth/AuthContext'
+import { euro } from '../utils/finance'
 import { workOrderStatusLabel } from '../utils/work-orders'
 
 export function DashboardPage() {
@@ -30,7 +35,7 @@ export function DashboardPage() {
   })
 
   const summary = summaryQuery.data
-  const cards = [
+  const operationalCards = [
     {
       title: 'Clientes activos',
       value: summary?.active_clients ?? 0,
@@ -63,15 +68,42 @@ export function DashboardPage() {
     },
   ]
 
+  const financialCards = [
+    {
+      title: 'Presupuestado',
+      value: euro(summary?.quoted_total ?? '0'),
+      detail: `${summary?.accepted_quotes ?? 0} aceptados`,
+      icon: <RequestQuoteOutlinedIcon fontSize="large" />,
+    },
+    {
+      title: 'Facturado',
+      value: euro(summary?.invoiced_total ?? '0'),
+      detail: 'Importe emitido',
+      icon: <AccountBalanceWalletOutlinedIcon fontSize="large" />,
+    },
+    {
+      title: 'Cobrado',
+      value: euro(summary?.collected_total ?? '0'),
+      detail: 'Pagos registrados',
+      icon: <PaidOutlinedIcon fontSize="large" />,
+    },
+    {
+      title: 'Pendiente',
+      value: euro(summary?.pending_total ?? '0'),
+      detail: `${summary?.overdue_invoices ?? 0} facturas vencidas`,
+      icon: <PaymentsOutlinedIcon fontSize="large" />,
+    },
+  ]
+
   return (
     <Stack spacing={3}>
       <Box>
-        <Chip label="Sprint 3 · Gestión operativa" color="primary" variant="outlined" />
+        <Chip label="Sprint 4 · Presupuestos y facturación" color="primary" variant="outlined" />
         <Typography variant="h4" sx={{ mt: 1.5 }}>
           Bienvenido, {user?.full_name}
         </Typography>
         <Typography color="text.secondary" sx={{ mt: 0.75 }}>
-          Resumen de clientes, trabajos y carga operativa de JR Platform.
+          Resumen operativo y financiero de JR Platform.
         </Typography>
       </Box>
 
@@ -84,16 +116,15 @@ export function DashboardPage() {
         </Alert>
       )}
 
+      <Typography variant="h5">Operaciones</Typography>
       <Grid container spacing={2.5}>
-        {cards.map((card) => (
+        {operationalCards.map((card) => (
           <Grid key={card.title} size={{ xs: 12, sm: 6, lg: 4 }}>
             <Card sx={{ height: '100%' }}>
               <CardContent sx={{ p: 3 }}>
                 <Stack direction="row" justifyContent="space-between" spacing={2}>
                   <Box>
-                    <Typography variant="overline" color="text.secondary">
-                      {card.title}
-                    </Typography>
+                    <Typography variant="overline" color="text.secondary">{card.title}</Typography>
                     <Typography variant="h4" sx={{ mt: 0.5 }}>{card.value}</Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                       {card.detail}
@@ -107,9 +138,31 @@ export function DashboardPage() {
         ))}
       </Grid>
 
+      <Typography variant="h5">Finanzas</Typography>
+      <Grid container spacing={2.5}>
+        {financialCards.map((card) => (
+          <Grid key={card.title} size={{ xs: 12, sm: 6, lg: 3 }}>
+            <Card sx={{ height: '100%' }}>
+              <CardContent sx={{ p: 3 }}>
+                <Stack direction="row" justifyContent="space-between" spacing={2}>
+                  <Box>
+                    <Typography variant="overline" color="text.secondary">{card.title}</Typography>
+                    <Typography variant="h5" sx={{ mt: 0.5 }}>{card.value}</Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                      {card.detail}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ color: 'secondary.main' }}>{card.icon}</Box>
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
       <Card>
         <CardContent sx={{ p: 3 }}>
-          <Typography variant="h6">Distribución por estado</Typography>
+          <Typography variant="h6">Distribución de trabajos por estado</Typography>
           {summaryQuery.isLoading && (
             <Stack alignItems="center" sx={{ py: 3 }}><CircularProgress size={28} /></Stack>
           )}

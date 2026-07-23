@@ -5,7 +5,17 @@ from sqlalchemy import engine_from_config, pool
 
 from apps.core.config import settings
 from apps.db.base import Base
-from apps.models import Client, User, WorkOrder, WorkOrderNote
+from apps.models import (
+    Client,
+    Invoice,
+    InvoiceItem,
+    Payment,
+    Quote,
+    QuoteItem,
+    User,
+    WorkOrder,
+    WorkOrderNote,
+)
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.database_url)
@@ -14,7 +24,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
-_ = (Client, User, WorkOrder, WorkOrderNote)
+_ = (Client, Invoice, InvoiceItem, Payment, Quote, QuoteItem, User, WorkOrder, WorkOrderNote)
 
 
 def run_migrations_offline() -> None:

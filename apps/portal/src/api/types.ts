@@ -85,4 +85,79 @@ export interface DashboardSummary {
   overdue_work_orders: number
   unassigned_work_orders: number
   status_breakdown: StatusMetric[]
+  draft_quotes: number
+  accepted_quotes: number
+  quoted_total: string
+  invoiced_total: string
+  collected_total: string
+  pending_total: string
+  overdue_invoices: number
+}
+
+export type QuoteStatus = 'draft' | 'sent' | 'accepted' | 'rejected' | 'expired'
+export type InvoiceStatus = 'issued' | 'partial' | 'paid' | 'cancelled'
+export type PaymentMethod = 'cash' | 'bank_transfer' | 'card' | 'direct_debit' | 'other'
+
+export interface FinancialLineItem {
+  id: string
+  description: string
+  quantity: string
+  unit_price: string
+  tax_rate: string
+  position: number
+  line_subtotal: string
+  line_tax: string
+  line_total: string
+}
+
+export interface Quote {
+  id: string
+  number: string
+  client: ClientReference
+  work_order_id: string | null
+  created_by: UserReference
+  status: QuoteStatus
+  issue_date: string
+  valid_until: string | null
+  notes: string | null
+  subtotal: string
+  tax_total: string
+  total: string
+  items: FinancialLineItem[]
+  invoice_id: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface Payment {
+  id: string
+  amount: string
+  method: PaymentMethod
+  paid_at: string
+  reference: string | null
+  notes: string | null
+  recorded_by: UserReference
+  created_at: string
+}
+
+export interface Invoice {
+  id: string
+  number: string
+  client: ClientReference
+  work_order_id: string | null
+  source_quote_id: string | null
+  created_by: UserReference
+  status: InvoiceStatus
+  issue_date: string
+  due_date: string | null
+  notes: string | null
+  subtotal: string
+  tax_total: string
+  total: string
+  paid_total: string
+  pending_total: string
+  items: FinancialLineItem[]
+  payments: Payment[]
+  created_at: string
+  updated_at: string
 }

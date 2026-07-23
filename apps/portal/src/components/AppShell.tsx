@@ -3,6 +3,8 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
+import RequestQuoteOutlinedIcon from '@mui/icons-material/RequestQuoteOutlined'
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import MenuIcon from '@mui/icons-material/Menu'
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 import {
@@ -38,6 +40,8 @@ export function AppShell() {
       { label: 'Panel', to: '/', icon: <DashboardOutlinedIcon />, visible: true },
       { label: 'Clientes', to: '/clients', icon: <BusinessOutlinedIcon />, visible: true },
       { label: 'Trabajos', to: '/work-orders', icon: <AssignmentOutlinedIcon />, visible: true },
+      { label: 'Presupuestos', to: '/quotes', icon: <RequestQuoteOutlinedIcon />, visible: true },
+      { label: 'Facturas', to: '/invoices', icon: <ReceiptLongOutlinedIcon />, visible: true },
       { label: 'Mi perfil', to: '/profile', icon: <AccountCircleOutlinedIcon />, visible: true },
       {
         label: 'Usuarios',

@@ -24,7 +24,11 @@ def read_assignable_users(
     db: Annotated[Session, Depends(get_db)],
     _: Annotated[User, Depends(get_current_user)],
 ) -> list[UserRead]:
-    return [UserRead.model_validate(user) for user in list_users(db) if user.is_active]
+    return [
+        UserRead.model_validate(user)
+        for user in list_users(db)
+        if user.is_active
+    ]
 
 
 @router.get("", response_model=list[UserRead])

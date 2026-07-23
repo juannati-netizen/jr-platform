@@ -3,8 +3,10 @@ import { Outlet, createRootRoute, createRoute, createRouter } from '@tanstack/re
 import { ProtectedLayout } from '../components/ProtectedLayout'
 import { ClientsPage } from '../pages/ClientsPage'
 import { DashboardPage } from '../pages/DashboardPage'
+import { InvoicesPage } from '../pages/InvoicesPage'
 import { LoginPage } from '../pages/LoginPage'
 import { ProfilePage } from '../pages/ProfilePage'
+import { QuotesPage } from '../pages/QuotesPage'
 import { UsersPage } from '../pages/UsersPage'
 import { WorkOrdersPage } from '../pages/WorkOrdersPage'
 
@@ -40,6 +42,18 @@ const workOrdersRoute = createRoute({
   component: WorkOrdersPage,
 })
 
+const quotesRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/quotes',
+  component: QuotesPage,
+})
+
+const invoicesRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/invoices',
+  component: InvoicesPage,
+})
+
 const profileRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/profile',
@@ -58,6 +72,8 @@ const routeTree = rootRoute.addChildren([
     dashboardRoute,
     clientsRoute,
     workOrdersRoute,
+    quotesRoute,
+    invoicesRoute,
     profileRoute,
     usersRoute,
   ]),

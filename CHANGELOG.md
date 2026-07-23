@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.0] - Sprint 4
+
+- Presupuestos con líneas, impuestos y estados.
+- Conversión de presupuestos aceptados en facturas.
+- Facturas directas y pagos parciales/completos.
+- Métricas financieras en el panel.
+- Documentos imprimibles en el portal.
+- Permisos administrativos para facturación y cobros.
+
 ## [0.4.0] - Sprint 3
 
 - Gestión de clientes.
