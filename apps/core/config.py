@@ -16,7 +16,7 @@ def normalize_database_url(value: str) -> str:
 class Settings(BaseSettings):
     app_name: str = "JR Platform API"
     app_env: str = "development"
-    app_version: str = "0.12.0"
+    app_version: str = "0.13.0"
     database_url: str = "sqlite+pysqlite:///./jr_platform.db"
     jwt_secret_key: str = "development-secret-change-me-please"
     jwt_algorithm: str = "HS256"

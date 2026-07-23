@@ -21,3 +21,10 @@ apps/portal/coverage/
 
 # Datos privados de migración local
 private-import/
+
+# Copias de seguridad locales y exportaciones de bases de datos
+backups/
+*.dump
+*.backup
+
+.coverage

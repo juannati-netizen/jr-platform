@@ -99,6 +99,8 @@ Desde **Gestión → Fiscalidad e IGIC** puedes revisar cada mes, cerrar periodo
 
 Los cálculos son orientativos y no sustituyen la autoliquidación oficial ni la revisión profesional.
 
-## Despliegue cloud
+## Despliegue cloud gratuito
 
-El repositorio incluye `render.yaml` y una imagen Docker de producción que sirven la API y el portal desde una sola dirección HTTPS. Consulta `docs/SPRINT11_CLOUD_DEPLOYMENT.md`.
+El repositorio incluye un `render.yaml` con un único servicio web gratuito. La base PostgreSQL se conecta mediante `DATABASE_URL` a un proyecto Supabase Free. La API y el portal se sirven desde una sola dirección HTTPS.
+
+Consulta `docs/SPRINT12_FREE_CLOUD.md` para crear Supabase, configurar Render, trasladar los datos y realizar copias manuales.

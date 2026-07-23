@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.13.0] - Sprint 12
+
+- Despliegue inicial sin recursos de pago mediante Render Free y Supabase Free.
+- Blueprint de Render reducido a un único servicio web gratuito.
+- PostgreSQL externo configurable mediante `DATABASE_URL`.
+- Guía paso a paso para crear y conectar Supabase con Session pooler.
+- Scripts para comprobar, restaurar y copiar la base de datos Supabase.
+- Copias `.dump`, `.backup` y la carpeta `backups/` excluidas de Git.
+- Pruebas automáticas para impedir que reaparezcan planes cloud de pago.
+
 ## [0.12.0] - Sprint 11
 
 - Imagen Docker de producción con FastAPI y React en un único servicio.

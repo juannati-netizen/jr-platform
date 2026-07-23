@@ -2,7 +2,7 @@ services:
   - type: web
     name: jr-platform
     runtime: docker
-    plan: starter
+    plan: free
     region: frankfurt
     dockerfilePath: ./deployment/cloud/Dockerfile
     dockerContext: .
@@ -14,11 +14,9 @@ services:
       - key: APP_ENV
         value: production
       - key: APP_VERSION
-        value: 0.12.0
+        value: 0.13.0
       - key: DATABASE_URL
-        fromDatabase:
-          name: jr-platform-db
-          property: connectionString
+        sync: false
       - key: JWT_SECRET_KEY
         generateValue: true
       - key: JWT_ALGORITHM
@@ -41,9 +39,3 @@ services:
         sync: false
       - key: AI_BASE_URL
         sync: false
-
-databases:
-  - name: jr-platform-db
-    plan: basic-256mb
-    region: frankfurt
-    postgresMajorVersion: "16"

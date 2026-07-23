@@ -20,6 +20,27 @@ def test_legacy_postgres_url_uses_psycopg_driver() -> None:
     )
 
 
+def test_supabase_session_pooler_url_uses_psycopg_driver() -> None:
+    value = (
+        "postgresql://postgres.project:password@aws-0-eu-central-1.pooler.supabase.com:"
+        "5432/postgres?sslmode=require"
+    )
+    assert normalize_database_url(value) == (
+        "postgresql+psycopg://postgres.project:password@"
+        "aws-0-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require"
+    )
+
+
+def test_free_render_blueprint_uses_external_database() -> None:
+    blueprint = (Path(__file__).resolve().parents[1] / "render.yaml").read_text(encoding="utf-8")
+
+    assert "plan: free" in blueprint
+    assert "- key: DATABASE_URL\n        sync: false" in blueprint
+    assert "databases:" not in blueprint
+    assert "basic-256mb" not in blueprint
+    assert "plan: starter" not in blueprint
+
+
 def test_portal_fallback_resolves_index(tmp_path: Path) -> None:
     index = tmp_path / "index.html"
     index.write_text("<html>JR Platform</html>", encoding="utf-8")

@@ -1,5 +1,7 @@
 # Sprint 11 — Despliegue cloud
 
+> **Documento histórico:** la configuración de pago de este sprint fue sustituida por `docs/SPRINT12_FREE_CLOUD.md`.
+
 JR Platform puede desplegarse como un único servicio web:
 
 - FastAPI sirve la API bajo `/api/v1`.

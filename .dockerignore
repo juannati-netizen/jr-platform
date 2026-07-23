@@ -9,3 +9,9 @@ __pycache__
 node_modules
 apps/portal/node_modules
 apps/portal/dist
+private-import
+backups
+*.dump
+*.backup
+jr_platform.db
+.coverage
