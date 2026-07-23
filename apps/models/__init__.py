@@ -1,4 +1,17 @@
 from apps.models.client import Client
+from apps.models.crm import (
+    CrmActivity,
+    CrmActivityType,
+    Lead,
+    LeadSource,
+    LeadStatus,
+    Opportunity,
+    OpportunityStage,
+    OpportunityStageHistory,
+    Project,
+    ProjectDocument,
+    ProjectStatus,
+)
 from apps.models.finance import (
     Invoice,
     InvoiceItem,
@@ -31,6 +44,17 @@ from apps.models.work_order import (
 )
 
 __all__ = [
+    "CrmActivity",
+    "CrmActivityType",
+    "Lead",
+    "LeadSource",
+    "LeadStatus",
+    "Opportunity",
+    "OpportunityStage",
+    "OpportunityStageHistory",
+    "Project",
+    "ProjectDocument",
+    "ProjectStatus",
     "CatalogItem",
     "InventoryLevel",
     "StockMovement",

@@ -101,6 +101,12 @@ export interface DashboardSummary {
   material_costs: string
   gross_margin: string
   realized_margin: string
+  total_leads: number
+  open_opportunities: number
+  pipeline_value: string
+  weighted_pipeline: string
+  pending_crm_activities: number
+  active_projects: number
 }
 
 export type QuoteStatus = 'draft' | 'sent' | 'accepted' | 'rejected' | 'expired'
@@ -343,4 +349,139 @@ export interface LegacyTariffImportResult {
   skipped: number
   total_rows: number
   warehouse_created: boolean
+}
+
+export type LeadSource = 'web' | 'referral' | 'campaign' | 'call' | 'event' | 'other'
+export type LeadStatus = 'new' | 'contacted' | 'qualified' | 'converted' | 'discarded'
+export type OpportunityStage =
+  | 'prospecting'
+  | 'qualification'
+  | 'proposal'
+  | 'negotiation'
+  | 'won'
+  | 'lost'
+export type CrmActivityType = 'task' | 'call' | 'email' | 'meeting' | 'follow_up'
+
+export interface Lead {
+  id: string
+  name: string
+  company: string | null
+  phone: string | null
+  email: string | null
+  source: LeadSource
+  status: LeadStatus
+  owner: UserReference | null
+  notes: string | null
+  converted_client: ClientReference | null
+  converted_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface Opportunity {
+  id: string
+  title: string
+  lead: Lead | null
+  client: ClientReference | null
+  owner: UserReference | null
+  stage: OpportunityStage
+  estimated_value: string
+  probability: number
+  weighted_value: string
+  expected_close: string | null
+  notes: string | null
+  quote_id: string | null
+  converted_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface CrmActivity {
+  id: string
+  opportunity_id: string | null
+  lead_id: string | null
+  assigned_to: UserReference | null
+  created_by: UserReference
+  activity_type: CrmActivityType
+  subject: string
+  due_at: string | null
+  completed: boolean
+  completed_at: string | null
+  notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface PipelineMetric {
+  stage: OpportunityStage
+  count: number
+  total_value: string
+  weighted_value: string
+}
+
+export interface CrmSummary {
+  total_leads: number
+  qualified_leads: number
+  open_opportunities: number
+  won_opportunities: number
+  pipeline_value: string
+  weighted_pipeline: string
+  pending_activities: number
+  overdue_activities: number
+  stages: PipelineMetric[]
+}
+
+export type ProjectStatus = 'planned' | 'active' | 'on_hold' | 'completed' | 'cancelled'
+
+export interface Project {
+  id: string
+  code: string
+  name: string
+  client: ClientReference
+  opportunity_id: string | null
+  work_order_id: string | null
+  manager: UserReference | null
+  created_by: UserReference
+  status: ProjectStatus
+  location: string | null
+  description: string | null
+  planned_start: string | null
+  planned_end: string | null
+  actual_end: string | null
+  budget: string
+  notes: string | null
+  documents_count: number
+  created_at: string
+  updated_at: string
+}
+
+export interface ProjectDocument {
+  id: string
+  filename: string
+  content_type: string
+  size_bytes: number
+  category: string
+  notes: string | null
+  uploaded_by: UserReference
+  created_at: string
+}
+
+export interface ProjectFinancialSummary {
+  quoted_total: string
+  invoiced_total: string
+  collected_total: string
+  expenses_total: string
+  material_costs: string
+  gross_margin: string
+}
+
+export interface ProjectFile {
+  project: Project
+  work_order: WorkOrder | null
+  quotes: Quote[]
+  invoices: Invoice[]
+  expenses: Expense[]
+  stock_movements: StockMovement[]
+  documents: ProjectDocument[]
+  financial: ProjectFinancialSummary
 }

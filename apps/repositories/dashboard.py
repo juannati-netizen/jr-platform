@@ -5,10 +5,12 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from apps.models.client import Client
+from apps.models.crm import Project, ProjectStatus
 from apps.models.finance import Invoice, InvoiceStatus, Quote, QuoteStatus
 from apps.models.inventory import CatalogItem, InventoryLevel
 from apps.models.procurement import Expense, ExpenseStatus, Supplier
 from apps.models.work_order import WorkOrder, WorkOrderStatus
+from apps.repositories.crm import get_crm_summary
 from apps.repositories.procurement import get_profitability_summary
 from apps.schemas.dashboard import DashboardSummary, StatusMetric
 
@@ -156,6 +158,23 @@ def get_dashboard_summary(db: Session) -> DashboardSummary:
         )
     )
     profitability = get_profitability_summary(db)
+    crm = get_crm_summary(db)
+    active_projects = (
+        db.scalar(
+            select(func.count())
+            .select_from(Project)
+            .where(
+                Project.status.in_(
+                    (
+                        ProjectStatus.PLANNED.value,
+                        ProjectStatus.ACTIVE.value,
+                        ProjectStatus.ON_HOLD.value,
+                    )
+                )
+            )
+        )
+        or 0
+    )
 
     return DashboardSummary(
         active_clients=active_clients,
@@ -181,4 +200,10 @@ def get_dashboard_summary(db: Session) -> DashboardSummary:
         material_costs=profitability.material_costs,
         gross_margin=profitability.gross_margin,
         realized_margin=profitability.realized_margin,
+        total_leads=crm.total_leads,
+        open_opportunities=crm.open_opportunities,
+        pipeline_value=crm.pipeline_value,
+        weighted_pipeline=crm.weighted_pipeline,
+        pending_crm_activities=crm.pending_activities,
+        active_projects=active_projects,
     )

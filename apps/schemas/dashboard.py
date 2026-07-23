@@ -34,3 +34,9 @@ class DashboardSummary(BaseModel):
     material_costs: Decimal
     gross_margin: Decimal
     realized_margin: Decimal
+    total_leads: int
+    open_opportunities: int
+    pipeline_value: Decimal
+    weighted_pipeline: Decimal
+    pending_crm_activities: int
+    active_projects: int

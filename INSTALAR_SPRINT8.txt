@@ -1,0 +1,31 @@
+JR PLATFORM — SPRINT 8
+CRM comercial, pipeline Kanban, obras y expedientes digitales
+
+Este paquete es incremental y debe copiarse sobre el proyecto existente.
+
+INSTALACIÓN
+1. Detén Docker con Ctrl+C.
+2. Descomprime este ZIP.
+3. Copia todo su contenido dentro de la carpeta del proyecto.
+4. Elige "Reemplazar los archivos en el destino".
+5. Ejecuta:
+   docker compose down
+   docker compose up --build --force-recreate
+6. Abre http://localhost:5173 y pulsa Ctrl+F5.
+
+COMPROBACIÓN LOCAL RECOMENDADA
+Ejecuta antes del commit:
+
+docker compose run --rm --no-deps api sh -c 'pip install -e ".[dev]" && ruff check . --fix && ruff format . && ruff check . && ruff format --check . && mypy apps && pytest'
+
+PRUEBAS MANUALES
+- Crear un lead y convertirlo en cliente.
+- Crear una oportunidad y moverla en el pipeline.
+- Convertir una oportunidad con cliente en presupuesto.
+- Crear una obra vinculada a un trabajo.
+- Abrir el expediente y subir/descargar un documento.
+
+GIT
+git add .
+git commit -m "PF-009 Add CRM pipeline projects and digital project files"
+git push

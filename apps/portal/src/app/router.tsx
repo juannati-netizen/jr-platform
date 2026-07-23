@@ -3,6 +3,7 @@ import { Outlet, createRootRoute, createRoute, createRouter } from '@tanstack/re
 import { ProtectedLayout } from '../components/ProtectedLayout'
 import { CatalogPage } from '../pages/CatalogPage'
 import { ClientsPage } from '../pages/ClientsPage'
+import { CrmPage } from '../pages/CrmPage'
 import { DashboardPage } from '../pages/DashboardPage'
 import { ExpensesPage } from '../pages/ExpensesPage'
 import { InventoryPage } from '../pages/InventoryPage'
@@ -11,6 +12,7 @@ import { LoginPage } from '../pages/LoginPage'
 import { MigrationPage } from '../pages/MigrationPage'
 import { ProfilePage } from '../pages/ProfilePage'
 import { ProfitabilityPage } from '../pages/ProfitabilityPage'
+import { ProjectsPage } from '../pages/ProjectsPage'
 import { QuotesPage } from '../pages/QuotesPage'
 import { SuppliersPage } from '../pages/SuppliersPage'
 import { UsersPage } from '../pages/UsersPage'
@@ -46,6 +48,18 @@ const inventoryRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/inventory',
   component: InventoryPage,
+})
+
+const crmRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/crm',
+  component: CrmPage,
+})
+
+const projectsRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/projects',
+  component: ProjectsPage,
 })
 
 const clientsRoute = createRoute({
@@ -112,6 +126,8 @@ const routeTree = rootRoute.addChildren([
   loginRoute,
   protectedRoute.addChildren([
     dashboardRoute,
+    crmRoute,
+    projectsRoute,
     clientsRoute,
     catalogRoute,
     inventoryRoute,

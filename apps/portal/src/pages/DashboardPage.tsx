@@ -1,5 +1,7 @@
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
+import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined'
@@ -120,6 +122,9 @@ export function DashboardPage() {
     if (summary.low_stock_items > 0) {
       items.push(`${summary.low_stock_items} referencia(s) están en nivel mínimo de stock.`)
     }
+    if (summary.pending_crm_activities > 0) {
+      items.push(`${summary.pending_crm_activities} actividad(es) comerciales siguen pendientes.`)
+    }
     return items
   }, [summary])
 
@@ -174,7 +179,7 @@ export function DashboardPage() {
           <MetricCard label="Presupuestos abiertos" value={summary?.draft_quotes ?? 0} detail="Borradores activos" />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 2 }}>
-          <MetricCard label="Pipeline comercial" value={euro(summary?.quoted_total ?? '0')} detail={`${summary?.accepted_quotes ?? 0} aceptados`} />
+          <MetricCard label="Pipeline comercial" value={euro(summary?.pipeline_value ?? '0')} detail={`${summary?.open_opportunities ?? 0} oportunidades`} />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 2 }}>
           <MetricCard label="Cobros pendientes" value={euro(summary?.pending_total ?? '0')} detail={`${summary?.overdue_invoices ?? 0} vencidos`} />
@@ -183,7 +188,7 @@ export function DashboardPage() {
           <MetricCard label="Tareas pendientes" value={summary?.open_work_orders ?? 0} detail={`${planned} planificadas`} />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 2 }}>
-          <MetricCard label="Obras activas" value={inProgress} detail="En ejecución" />
+          <MetricCard label="Obras activas" value={summary?.active_projects ?? 0} detail={`${inProgress} trabajos en ejecución`} />
         </Grid>
       </Grid>
 
@@ -204,6 +209,12 @@ export function DashboardPage() {
                   <RequestQuoteOutlinedIcon color="primary" fontSize="small" />
                   <Typography variant="body2">
                     {summary?.draft_quotes} presupuestos están todavía en borrador.
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <HandshakeOutlinedIcon color="primary" fontSize="small" />
+                  <Typography variant="body2">
+                    {summary?.open_opportunities} oportunidades suman {euro(summary?.pipeline_value ?? '0')}.
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={1} alignItems="center">
@@ -280,8 +291,8 @@ export function DashboardPage() {
               </Stack>
               <Grid container spacing={0.7} sx={{ mt: 1.1 }}>
                 <Grid size={{ xs: 6, md: 2.4 }}>
-                  <Button fullWidth variant="contained" component={Link} to="/clients">
-                    Nuevo cliente
+                  <Button fullWidth variant="contained" component={Link} to="/crm" startIcon={<HandshakeOutlinedIcon />}>
+                    CRM
                   </Button>
                 </Grid>
                 <Grid size={{ xs: 6, md: 2.4 }}>
@@ -300,8 +311,8 @@ export function DashboardPage() {
                   </Button>
                 </Grid>
                 <Grid size={{ xs: 6, md: 2.4 }}>
-                  <Button fullWidth variant="contained" component={Link} to="/inventory" startIcon={<Inventory2OutlinedIcon />}>
-                    Inventario
+                  <Button fullWidth variant="contained" component={Link} to="/projects" startIcon={<EngineeringOutlinedIcon />}>
+                    Obras
                   </Button>
                 </Grid>
               </Grid>

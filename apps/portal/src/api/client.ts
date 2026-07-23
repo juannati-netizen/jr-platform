@@ -23,7 +23,12 @@ export async function apiRequest<T>(
     headers.set('Authorization', `Bearer ${token}`)
   }
 
-  if (options.body && !(options.body instanceof URLSearchParams) && !headers.has('Content-Type')) {
+  if (
+    options.body &&
+    !(options.body instanceof URLSearchParams) &&
+    !(options.body instanceof FormData) &&
+    !headers.has('Content-Type')
+  ) {
     headers.set('Content-Type', 'application/json')
   }
 
@@ -60,4 +65,25 @@ function extractErrorDetail(payload: unknown): string {
     return payload.detail
   }
   return 'No se pudo completar la operación'
+}
+
+
+export async function authenticatedDownload(path: string, filename: string): Promise<void> {
+  const headers = new Headers()
+  const token = tokenStore.get()
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  const response = await fetch(`${API_BASE_URL}${path}`, { headers })
+  if (!response.ok) {
+    const payload = await readPayload(response)
+    throw new ApiError(extractErrorDetail(payload), response.status)
+  }
+  const blob = await response.blob()
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(url)
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.9.0] - Sprint 8
+
+- Leads, oportunidades y actividades comerciales.
+- Pipeline Kanban con valor ponderado e historial de etapas.
+- Conversión de leads en clientes y oportunidades en presupuestos.
+- Obras vinculadas a clientes, oportunidades y trabajos.
+- Expediente digital con documentos autenticados y métricas financieras.
+- Métricas CRM y obras activas en el Centro de Control.
+- Nueva migración y pruebas automáticas de CRM y proyectos.
+
 ## [0.8.0] - Sprint 7
 
 - Tarifario técnico y comercial.

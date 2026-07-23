@@ -2,10 +2,12 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined'
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
+import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
 import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined'
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined'
 import KeyboardCommandKeyIcon from '@mui/icons-material/KeyboardCommandKey'
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined'
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
@@ -100,6 +102,7 @@ export function AppShell() {
         id: 'commercial',
         label: 'COMERCIAL',
         items: [
+          { label: 'CRM comercial', to: '/crm', icon: <HandshakeOutlinedIcon />, visible: true },
           { label: 'Clientes', to: '/clients', icon: <BusinessOutlinedIcon />, visible: true },
           {
             label: 'Presupuestos',
@@ -154,6 +157,12 @@ export function AppShell() {
             to: '/profitability',
             icon: <TrendingUpOutlinedIcon />,
             visible: user?.role === 'admin',
+          },
+          {
+            label: 'Obras y expedientes',
+            to: '/projects',
+            icon: <EngineeringOutlinedIcon />,
+            visible: true,
           },
           {
             label: 'Mi perfil',
@@ -313,7 +322,7 @@ export function AppShell() {
       >
         <Toolbar variant="dense" sx={{ minHeight: `${globalBarHeight}px !important`, px: 1.25 }}>
           <Typography variant="caption" fontWeight={760} sx={{ mr: 3 }}>
-            JR Electricista · JR Platform 0.8.0
+            JR Electricista · JR Platform 0.9.0
           </Typography>
           <Stack direction="row" spacing={2.5} sx={{ display: { xs: 'none', md: 'flex' } }}>
             {['Espacio de trabajo', 'Apariencia', 'Perfiles', 'Herramientas'].map((item) => (

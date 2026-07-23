@@ -20,6 +20,9 @@ Plataforma operativa para clientes, trabajos, facturación, compras y rentabilid
 - Centro de migración y plantillas CSV para preparar el traslado de datos.
 - Tarifario técnico y comercial con 1.135 artículos heredados.
 - Almacenes, existencias, movimientos, alertas de stock y materiales asignados a trabajos.
+- CRM comercial con leads, oportunidades, actividades y pipeline Kanban.
+- Conversión de leads en clientes y de oportunidades en presupuestos.
+- Obras y expedientes digitales con documentos y resumen financiero.
 
 ## Requisitos
 
