@@ -15,3 +15,6 @@ build/
 coverage.xml
 htmlcov/
 jr_platform.db
+node_modules/
+apps/portal/dist/
+apps/portal/coverage/

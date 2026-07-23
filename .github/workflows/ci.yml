@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  quality:
+  backend-quality:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      - name: Install
+      - name: Install backend
         run: pip install -e ".[dev]"
 
       - name: Ruff lint
@@ -31,5 +31,32 @@ jobs:
       - name: MyPy
         run: mypy apps
 
-      - name: Tests
+      - name: Backend tests
         run: pytest
+
+  portal-quality:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/portal
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install portal
+        run: npm install --no-audit --no-fund
+
+      - name: Type check
+        run: npm run check
+
+      - name: Portal tests
+        run: npm test
+
+      - name: Portal build
+        run: npm run build

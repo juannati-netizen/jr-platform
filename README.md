@@ -1,89 +1,70 @@
 # JR Platform
 
-JR Platform es una API base construida con FastAPI, PostgreSQL, SQLAlchemy y Alembic.
+JR Platform es una base modular con API FastAPI, PostgreSQL y un portal React protegido por autenticación JWT.
 
-## Sprint 1
+## Sprint 2
 
 Esta entrega incorpora:
 
-- Registro de usuarios.
-- Inicio de sesión con JWT.
-- Contraseñas protegidas con PBKDF2-SHA256.
-- Roles `admin` y `user`.
-- Endpoints protegidos.
-- Creación automática de un administrador inicial.
-- Migración de la tabla `users`.
-- Pruebas automáticas de autenticación y autorización.
+- Portal React + TypeScript + Vite.
+- Material UI.
+- TanStack Router y TanStack Query.
+- Inicio y cierre de sesión.
+- Rutas protegidas.
+- Panel principal y perfil.
+- Gestión de roles para administradores.
+- Docker para API, base de datos y portal.
+- CI independiente para backend y frontend.
 
 ## Requisitos
 
-- Docker Desktop en funcionamiento.
+- Docker Desktop.
 - Git.
 
-## Instalación
+## Arranque rápido
 
-Copia el archivo de entorno si todavía no existe:
+1. Copia `.env.example` como `.env`.
+2. Ejecuta:
 
-```powershell
-Copy-Item .env.example .env
-```
-
-Abre `.env` y cambia al menos:
-
-```text
-JWT_SECRET_KEY
-INITIAL_ADMIN_PASSWORD
-```
-
-Arranca el proyecto:
-
-```powershell
+```bash
 docker compose up --build
 ```
 
-## Direcciones
+3. Abre:
 
+- Portal: http://localhost:5173
 - API: http://localhost:8000
 - Swagger: http://localhost:8000/docs
-- Estado: http://localhost:8000/health
+- Health: http://localhost:8000/health
 
-## Administrador inicial
-
-Al iniciar la API, se crea el administrador definido en `.env` cuando todavía no existe:
+## Credenciales de desarrollo
 
 ```text
-INITIAL_ADMIN_EMAIL=admin@jrplatform.local
-INITIAL_ADMIN_PASSWORD=ChangeMe123!
+Correo: admin@jrplatform.com
+Contraseña: ChangeMe123!
 ```
 
-Cambia esa contraseña antes de utilizar el proyecto fuera de desarrollo.
+Cámbialas antes de publicar el sistema.
 
-## Endpoints principales
+## Calidad del backend
 
-```text
-POST  /api/v1/auth/register
-POST  /api/v1/auth/login
-GET   /api/v1/users/me
-GET   /api/v1/users
-PATCH /api/v1/users/{user_id}/role
-```
-
-Los dos últimos endpoints requieren el rol `admin`.
-
-## Pruebas locales
-
-```powershell
+```bash
 python -m venv .venv
-.venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
-pytest
-```
-
-## Calidad
-
-```powershell
 ruff check .
 ruff format --check .
 mypy apps
 pytest
 ```
+
+## Calidad del portal
+
+```bash
+cd apps/portal
+npm install
+npm run check
+npm test
+npm run build
+```
+
+Consulta `docs/sprint-2.md` para ver la arquitectura y los criterios de aceptación.

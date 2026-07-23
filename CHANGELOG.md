@@ -1,19 +1,25 @@
 # Changelog
 
+## [0.3.0] - Sprint 2
+
+- Portal React + TypeScript + Vite.
+- Inicio de sesión conectado a FastAPI.
+- Sesión JWT y rutas protegidas.
+- Panel, perfil y gestión de usuarios.
+- Material UI, TanStack Router y TanStack Query.
+- Docker y CI para frontend.
+- CORS configurable en la API.
+
 ## [0.2.0] - Sprint 1
 
 - Registro e inicio de sesión.
-- Autenticación mediante JWT.
-- Protección PBKDF2-SHA256 para contraseñas.
-- Usuarios, roles y permisos.
+- JWT, usuarios, roles y permisos.
+- Migración de la tabla de usuarios.
 - Administrador inicial configurable.
-- Migración de base de datos y pruebas automáticas.
 
 ## [0.1.0] - Sprint 0
 
 - Estructura inicial del backend.
-- FastAPI.
-- PostgreSQL y Docker Compose.
-- Alembic.
+- FastAPI, PostgreSQL, Docker Compose y Alembic.
 - Endpoint `/health`.
 - Pytest, Ruff, MyPy y GitHub Actions.
