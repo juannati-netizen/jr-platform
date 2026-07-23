@@ -3,10 +3,13 @@ import { Outlet, createRootRoute, createRoute, createRouter } from '@tanstack/re
 import { ProtectedLayout } from '../components/ProtectedLayout'
 import { ClientsPage } from '../pages/ClientsPage'
 import { DashboardPage } from '../pages/DashboardPage'
+import { ExpensesPage } from '../pages/ExpensesPage'
 import { InvoicesPage } from '../pages/InvoicesPage'
 import { LoginPage } from '../pages/LoginPage'
 import { ProfilePage } from '../pages/ProfilePage'
+import { ProfitabilityPage } from '../pages/ProfitabilityPage'
 import { QuotesPage } from '../pages/QuotesPage'
+import { SuppliersPage } from '../pages/SuppliersPage'
 import { UsersPage } from '../pages/UsersPage'
 import { WorkOrdersPage } from '../pages/WorkOrdersPage'
 
@@ -54,6 +57,24 @@ const invoicesRoute = createRoute({
   component: InvoicesPage,
 })
 
+const suppliersRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/suppliers',
+  component: SuppliersPage,
+})
+
+const expensesRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/expenses',
+  component: ExpensesPage,
+})
+
+const profitabilityRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/profitability',
+  component: ProfitabilityPage,
+})
+
 const profileRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/profile',
@@ -74,6 +95,9 @@ const routeTree = rootRoute.addChildren([
     workOrdersRoute,
     quotesRoute,
     invoicesRoute,
+    suppliersRoute,
+    expensesRoute,
+    profitabilityRoute,
     profileRoute,
     usersRoute,
   ]),

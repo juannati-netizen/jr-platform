@@ -52,3 +52,17 @@ def create_client(client: TestClient, headers: dict[str, str], name: str = "Clie
     )
     assert response.status_code == 201
     return str(response.json()["id"])
+
+
+def create_supplier(
+    client: TestClient,
+    headers: dict[str, str],
+    name: str = "Proveedor Demo",
+) -> str:
+    response = client.post(
+        "/api/v1/suppliers",
+        headers=headers,
+        json={"name": name, "email": "proveedor@example.com"},
+    )
+    assert response.status_code == 201
+    return str(response.json()["id"])

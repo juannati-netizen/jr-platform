@@ -14,17 +14,31 @@ from apps.db.base import Base
 from apps.db.session import engine
 from apps.models import (
     Client,
+    Expense,
     Invoice,
     InvoiceItem,
     Payment,
     Quote,
     QuoteItem,
+    Supplier,
     User,
     WorkOrder,
     WorkOrderNote,
 )
 
-_ = (Client, Invoice, InvoiceItem, Payment, Quote, QuoteItem, User, WorkOrder, WorkOrderNote)
+_ = (
+    Client,
+    Expense,
+    Invoice,
+    InvoiceItem,
+    Payment,
+    Quote,
+    QuoteItem,
+    Supplier,
+    User,
+    WorkOrder,
+    WorkOrderNote,
+)
 
 
 @pytest.fixture(autouse=True)

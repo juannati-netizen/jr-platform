@@ -1,6 +1,6 @@
 # JR Platform
 
-Plataforma operativa para clientes, trabajos, presupuestos y facturación.
+Plataforma operativa para clientes, trabajos, facturación, compras y rentabilidad.
 
 ## Funcionalidades actuales
 
@@ -10,7 +10,11 @@ Plataforma operativa para clientes, trabajos, presupuestos y facturación.
 - Presupuestos con conceptos e impuestos.
 - Conversión de presupuesto aceptado en factura.
 - Pagos parciales y completos.
-- Panel operativo y financiero.
+- Proveedores y registro de gastos.
+- Costes de materiales y gastos vinculados a trabajos.
+- Rentabilidad por trabajo y cliente.
+- Exportación CSV de informes de rentabilidad.
+- Panel operativo, financiero y de margen.
 - Portal React con documentos imprimibles.
 
 ## Requisitos

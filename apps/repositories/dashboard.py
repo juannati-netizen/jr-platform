@@ -6,8 +6,11 @@ from sqlalchemy.orm import Session
 
 from apps.models.client import Client
 from apps.models.finance import Invoice, InvoiceStatus, Quote, QuoteStatus
+from apps.models.procurement import Expense, ExpenseStatus, Supplier
 from apps.models.work_order import WorkOrder, WorkOrderStatus
+from apps.repositories.procurement import get_profitability_summary
 from apps.schemas.dashboard import DashboardSummary, StatusMetric
+
 
 OPEN_STATUSES = (
     WorkOrderStatus.DRAFT.value,
@@ -66,12 +69,15 @@ def get_dashboard_summary(db: Session) -> DashboardSummary:
     ).all()
     counts = {str(status): int(count) for status, count in status_rows}
     status_breakdown = [
-        StatusMetric(status=status, count=counts.get(status.value, 0)) for status in WorkOrderStatus
+        StatusMetric(status=status, count=counts.get(status.value, 0))
+        for status in WorkOrderStatus
     ]
 
     draft_quotes = (
         db.scalar(
-            select(func.count()).select_from(Quote).where(Quote.status == QuoteStatus.DRAFT.value)
+            select(func.count())
+            .select_from(Quote)
+            .where(Quote.status == QuoteStatus.DRAFT.value)
         )
         or 0
     )
@@ -92,7 +98,9 @@ def get_dashboard_summary(db: Session) -> DashboardSummary:
     )
     invoiced_total = decimal_scalar(
         db.scalar(
-            select(func.sum(Invoice.total)).where(Invoice.status != InvoiceStatus.CANCELLED.value)
+            select(func.sum(Invoice.total)).where(
+                Invoice.status != InvoiceStatus.CANCELLED.value
+            )
         )
     )
     collected_total = decimal_scalar(
@@ -116,6 +124,24 @@ def get_dashboard_summary(db: Session) -> DashboardSummary:
         or 0
     )
 
+    active_suppliers = (
+        db.scalar(
+            select(func.count())
+            .select_from(Supplier)
+            .where(Supplier.is_active.is_(True))
+        )
+        or 0
+    )
+    pending_expenses = (
+        db.scalar(
+            select(func.count())
+            .select_from(Expense)
+            .where(Expense.status == ExpenseStatus.PENDING.value)
+        )
+        or 0
+    )
+    profitability = get_profitability_summary(db)
+
     return DashboardSummary(
         active_clients=active_clients,
         total_clients=total_clients,
@@ -131,4 +157,10 @@ def get_dashboard_summary(db: Session) -> DashboardSummary:
         collected_total=collected_total,
         pending_total=pending_total,
         overdue_invoices=overdue_invoices,
+        active_suppliers=active_suppliers,
+        pending_expenses=pending_expenses,
+        expenses_total=profitability.expenses_total,
+        material_costs=profitability.material_costs,
+        gross_margin=profitability.gross_margin,
+        realized_margin=profitability.realized_margin,
     )

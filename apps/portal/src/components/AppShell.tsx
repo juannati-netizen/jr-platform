@@ -1,9 +1,12 @@
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
+import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined'
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
 import RequestQuoteOutlinedIcon from '@mui/icons-material/RequestQuoteOutlined'
+import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined'
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import MenuIcon from '@mui/icons-material/Menu'
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
@@ -42,6 +45,24 @@ export function AppShell() {
       { label: 'Trabajos', to: '/work-orders', icon: <AssignmentOutlinedIcon />, visible: true },
       { label: 'Presupuestos', to: '/quotes', icon: <RequestQuoteOutlinedIcon />, visible: true },
       { label: 'Facturas', to: '/invoices', icon: <ReceiptLongOutlinedIcon />, visible: true },
+      {
+        label: 'Proveedores',
+        to: '/suppliers',
+        icon: <LocalShippingOutlinedIcon />,
+        visible: user?.role === 'admin',
+      },
+      {
+        label: 'Gastos',
+        to: '/expenses',
+        icon: <CreditCardOutlinedIcon />,
+        visible: user?.role === 'admin',
+      },
+      {
+        label: 'Rentabilidad',
+        to: '/profitability',
+        icon: <TrendingUpOutlinedIcon />,
+        visible: user?.role === 'admin',
+      },
       { label: 'Mi perfil', to: '/profile', icon: <AccountCircleOutlinedIcon />, visible: true },
       {
         label: 'Usuarios',

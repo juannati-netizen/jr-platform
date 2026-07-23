@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0] - Sprint 5
+
+- Gestión de proveedores.
+- Registro y clasificación de gastos y compras.
+- Vinculación de costes con trabajos.
+- Seguimiento de materiales, pagos y referencias.
+- Rentabilidad por trabajo y cliente.
+- Panel ampliado con gastos y márgenes.
+- Exportación CSV de informes de rentabilidad.
+- Migración y pruebas automáticas de compras.
+
 ## [0.5.0] - Sprint 4
 
 - Presupuestos con líneas, impuestos y estados.

@@ -9,6 +9,12 @@ from apps.models.finance import (
     QuoteItem,
     QuoteStatus,
 )
+from apps.models.procurement import (
+    Expense,
+    ExpenseCategory,
+    ExpenseStatus,
+    Supplier,
+)
 from apps.models.user import User, UserRole
 from apps.models.work_order import (
     WorkOrder,
@@ -19,6 +25,9 @@ from apps.models.work_order import (
 
 __all__ = [
     "Client",
+    "Expense",
+    "ExpenseCategory",
+    "ExpenseStatus",
     "Invoice",
     "InvoiceItem",
     "InvoiceStatus",
@@ -27,6 +36,7 @@ __all__ = [
     "Quote",
     "QuoteItem",
     "QuoteStatus",
+    "Supplier",
     "User",
     "UserRole",
     "WorkOrder",

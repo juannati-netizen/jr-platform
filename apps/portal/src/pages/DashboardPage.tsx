@@ -3,10 +3,13 @@ import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlin
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined'
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined'
+import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined'
 import PersonOffOutlinedIcon from '@mui/icons-material/PersonOffOutlined'
 import RequestQuoteOutlinedIcon from '@mui/icons-material/RequestQuoteOutlined'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import {
   Alert,
   Box,
@@ -66,6 +69,12 @@ export function DashboardPage() {
       detail: 'Trabajos abiertos sin asignar',
       icon: <PersonOffOutlinedIcon fontSize="large" />,
     },
+    {
+      title: 'Proveedores activos',
+      value: summary?.active_suppliers ?? 0,
+      detail: 'Directorio de compras',
+      icon: <LocalShippingOutlinedIcon fontSize="large" />,
+    },
   ]
 
   const financialCards = [
@@ -93,17 +102,35 @@ export function DashboardPage() {
       detail: `${summary?.overdue_invoices ?? 0} facturas vencidas`,
       icon: <PaymentsOutlinedIcon fontSize="large" />,
     },
+    {
+      title: 'Gastos',
+      value: euro(summary?.expenses_total ?? '0'),
+      detail: `${summary?.pending_expenses ?? 0} pendientes de pago`,
+      icon: <ShoppingCartOutlinedIcon fontSize="large" />,
+    },
+    {
+      title: 'Margen bruto',
+      value: euro(summary?.gross_margin ?? '0'),
+      detail: `${euro(summary?.material_costs ?? '0')} en materiales`,
+      icon: <SavingsOutlinedIcon fontSize="large" />,
+    },
+    {
+      title: 'Margen realizado',
+      value: euro(summary?.realized_margin ?? '0'),
+      detail: 'Cobros menos gastos',
+      icon: <PaidOutlinedIcon fontSize="large" />,
+    },
   ]
 
   return (
     <Stack spacing={3}>
       <Box>
-        <Chip label="Sprint 4 · Presupuestos y facturación" color="primary" variant="outlined" />
+        <Chip label="Sprint 5 · Compras y rentabilidad" color="primary" variant="outlined" />
         <Typography variant="h4" sx={{ mt: 1.5 }}>
           Bienvenido, {user?.full_name}
         </Typography>
         <Typography color="text.secondary" sx={{ mt: 0.75 }}>
-          Resumen operativo y financiero de JR Platform.
+          Ingresos, costes y margen real de JR Platform.
         </Typography>
       </Box>
 
@@ -141,7 +168,7 @@ export function DashboardPage() {
       <Typography variant="h5">Finanzas</Typography>
       <Grid container spacing={2.5}>
         {financialCards.map((card) => (
-          <Grid key={card.title} size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Grid key={card.title} size={{ xs: 12, sm: 6, lg: 4 }}>
             <Card sx={{ height: '100%' }}>
               <CardContent sx={{ p: 3 }}>
                 <Stack direction="row" justifyContent="space-between" spacing={2}>

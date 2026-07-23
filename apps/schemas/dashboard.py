@@ -25,3 +25,9 @@ class DashboardSummary(BaseModel):
     collected_total: Decimal
     pending_total: Decimal
     overdue_invoices: int
+    active_suppliers: int
+    pending_expenses: int
+    expenses_total: Decimal
+    material_costs: Decimal
+    gross_margin: Decimal
+    realized_margin: Decimal

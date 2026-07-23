@@ -92,6 +92,12 @@ export interface DashboardSummary {
   collected_total: string
   pending_total: string
   overdue_invoices: number
+  active_suppliers: number
+  pending_expenses: number
+  expenses_total: string
+  material_costs: string
+  gross_margin: string
+  realized_margin: string
 }
 
 export type QuoteStatus = 'draft' | 'sent' | 'accepted' | 'rejected' | 'expired'
@@ -160,4 +166,91 @@ export interface Invoice {
   payments: Payment[]
   created_at: string
   updated_at: string
+}
+
+export type ExpenseCategory =
+  | 'materials'
+  | 'subcontracting'
+  | 'travel'
+  | 'tools'
+  | 'services'
+  | 'taxes'
+  | 'other'
+
+export type ExpenseStatus = 'pending' | 'paid' | 'cancelled'
+
+export interface Supplier {
+  id: string
+  name: string
+  tax_id: string | null
+  email: string | null
+  phone: string | null
+  address: string | null
+  notes: string | null
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface SupplierReference {
+  id: string
+  name: string
+}
+
+export interface WorkOrderReference {
+  id: string
+  title: string
+  client_name: string
+}
+
+export interface Expense {
+  id: string
+  supplier: SupplierReference | null
+  work_order: WorkOrderReference | null
+  created_by: UserReference
+  description: string
+  category: ExpenseCategory
+  status: ExpenseStatus
+  expense_date: string
+  subtotal: string
+  tax_rate: string
+  tax_total: string
+  total: string
+  reference: string | null
+  notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface WorkOrderProfitability {
+  id: string
+  title: string
+  client_name: string
+  invoiced_revenue: string
+  collected_revenue: string
+  expenses_total: string
+  gross_margin: string
+  realized_margin: string
+}
+
+export interface ClientProfitability {
+  id: string
+  name: string
+  invoiced_revenue: string
+  collected_revenue: string
+  expenses_total: string
+  gross_margin: string
+  realized_margin: string
+}
+
+export interface ProfitabilitySummary {
+  invoiced_revenue: string
+  collected_revenue: string
+  expenses_total: string
+  material_costs: string
+  gross_margin: string
+  realized_margin: string
+  gross_margin_percent: string
+  work_orders: WorkOrderProfitability[]
+  clients: ClientProfitability[]
 }

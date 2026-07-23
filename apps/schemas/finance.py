@@ -5,8 +5,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from apps.models.finance import Invoice, InvoiceStatus, Payment, PaymentMethod, Quote, QuoteStatus
 from apps.models.user import User
-from apps.schemas.client import ClientReference
-from apps.schemas.work_order import UserReference
+from apps.schemas.work_order import ClientReference, UserReference
 
 
 def user_reference(user: User) -> UserReference:

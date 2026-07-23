@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 
 from tests.helpers import create_admin_and_login, create_client, register_and_login
 
+
 ITEMS = [
     {
         "description": "Instalación de cuadro eléctrico",
